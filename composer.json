@@ -4,9 +4,9 @@
   "require": {
     "php": "<7.3",
     "developersrede/erede-php": "^3.0",
-    "magento/module-payment": "100.1.*",
-    "magento/module-checkout": "100.1.*",
-    "magento/module-sales": "100.1.*",
+    "magento/module-payment": "100.3.*",
+    "magento/module-checkout": "100.3.*",
+    "magento/module-sales": "102.0.*",
     "ext-json": "*",
     "ext-curl": "*"
   },
