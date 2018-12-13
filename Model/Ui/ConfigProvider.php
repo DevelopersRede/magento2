@@ -76,40 +76,11 @@ final class ConfigProvider implements ConfigProviderInterface
                     'min_total_installments' => $this->config->getMinTotalInstallments(),
                     '3ds_enabled' => $this->config->is3DSEnabled(),
                     'debit_enabled' => $this->config->isDebitEnabled(),
-                    '3ds_threshold' => $this->config->getThresholdAmount()
-                ],
-                'ccform' => [
-                    'icons' => [
-                        'ELO' => $this->getIcons("ELO"),
-                        'AU' => $this->getIcons("AU")
-                    ]
+                    '3ds_threshold' => $this->config->getThresholdAmount(),
+                    'issuers' => $this->createAsset('Rede_Adquirencia::images/cc/bandeiras.jpg')
                 ]
             ]
         ];
-    }
-
-    /**
-     * Get icons for available payment methods
-     *
-     * @param {String} card_type
-     *
-     * @return array
-     */
-    public function getIcons($card_type)
-    {
-        if ($card_type) {
-            $asset = $this->createAsset('Rede_Adquirencia::images/cc/' . strtolower($card_type) . '.png');
-            $placeholder = $this->assetSource->findSource($asset);
-            if ($placeholder) {
-                list($width, $height) = getimagesize($asset->getSourceFile());
-                $icon = [
-                    'url' => $asset->getUrl(),
-                    'width' => $width,
-                    'height' => $height
-                ];
-            }
-        }
-        return $icon;
     }
 
     /**
