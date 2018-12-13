@@ -4,9 +4,6 @@
   "require": {
     "php": "<7.3",
     "developersrede/erede-php": "^3.0",
-    "magento/module-payment": "100.3.*",
-    "magento/module-checkout": "100.3.*",
-    "magento/module-sales": "102.0.*",
     "ext-json": "*",
     "ext-curl": "*"
   },
@@ -24,15 +21,5 @@
     "psr-4": {
       "Rede\\Adquirencia\\": ""
     }
-  },
-  "minimum-stability": "stable",
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://repo.magento.com/"
-    }
-  ],
-  "extra": {
-    "magento-force": "override"
   }
 }
