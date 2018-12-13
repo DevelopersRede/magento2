@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="RedeFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Rede\Adquirencia\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form\Cc</argument>
+            <argument name="infoBlockType" xsi:type="string">Rede\Adquirencia\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">RedeValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">RedeValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">RedeCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <type name="Rede\Adquirencia\Gateway\Config\Config" >
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Rede\Adquirencia\Model\Ui\ConfigProvider::CODE</argument>
+        </arguments>
+    </type>
+
+    <!-- Logger, initialized with SamplePaymentGatewayConfig -->
+    <virtualType name="RedeLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">Rede\Adquirencia\Gateway\Config\Config</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Rede\Adquirencia\Model\Adapter\RedeAdapter">
+        <arguments>
+            <argument name="logger" xsi:type="object">RedeLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="RedeCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">RedeAuthorizeCommand</item>
+                <item name="sale" xsi:type="string">RedeSaleCommand</item>
+                <item name="capture" xsi:type="string">RedeCaptureStrategyCommand</item>
+                <item name="settlement" xsi:type="string">RedeSettlementCommand</item>
+                <item name="void" xsi:type="string">RedeVoidCommand</item>
+                <item name="refund" xsi:type="string">RedeVoidCommand</item>
+                <item name="cancel" xsi:type="string">RedeVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="RedeCaptureStrategyCommand" type="Rede\Adquirencia\Gateway\Command\CaptureStrategyCommand">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">RedeCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize command -->
+    <virtualType name="RedeAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">RedeAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">RedeResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Rede\Adquirencia\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Rede\Adquirencia\Gateway\Validator\AuthorizeValidator</argument>
+            <argument name="client" xsi:type="object">Rede\Adquirencia\Gateway\Http\Client\TransactionAuthorize</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorization Request -->
+    <virtualType name="RedeAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sale" xsi:type="string">Rede\Adquirencia\Gateway\Request\SaleDataBuilder</item>
+                <item name="payment" xsi:type="string">Rede\Adquirencia\Gateway\Request\CreditCardPaymentDataBuilder</item>
+                <item name="creditCard" xsi:type="string">Rede\Adquirencia\Gateway\Request\CreditCardDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Rede\Adquirencia\Gateway\Http\TransferFactory">
+        <arguments>
+            <argument name="config" xsi:type="object">Rede\Adquirencia\Gateway\Config\Config</argument>
+        </arguments>
+    </type>
+
+    <!-- Sale command -->
+    <virtualType name="RedeSaleCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">RedeAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">RedeResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Rede\Adquirencia\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Rede\Adquirencia\Gateway\Validator\AuthorizeValidator</argument>
+            <argument name="client" xsi:type="object">Rede\Adquirencia\Gateway\Http\Client\TransactionSale</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Settlement command -->
+    <virtualType name="RedeSettlementCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Rede\Adquirencia\Gateway\Request\SettlementRequest</argument>
+            <argument name="handler" xsi:type="object">Rede\Adquirencia\Gateway\Response\SettlementDetailsHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Rede\Adquirencia\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Rede\Adquirencia\Gateway\Validator\SettlementCodeValidator</argument>
+            <argument name="client" xsi:type="object">Rede\Adquirencia\Gateway\Http\Client\TransactionSettlement</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SettlementRequest -->
+    <type name="Rede\Adquirencia\Gateway\Request\SettlementRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">Rede\Adquirencia\Gateway\Config\Config</argument>
+        </arguments>
+    </type>
+
+    <!-- Void Command -->
+    <virtualType name="RedeVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="client" xsi:type="object">Rede\Adquirencia\Gateway\Http\Client\TransactionVoid</argument>
+            <argument name="requestBuilder" xsi:type="object">RedeVoidRequestBuilder</argument>
+            <argument name="handler" xsi:type="object">Rede\Adquirencia\Gateway\Response\VoidHandler</argument>
+            <argument name="validator" xsi:type="object">Rede\Adquirencia\Gateway\Validator\GeneralResponseValidator</argument>
+            <argument name="transferFactory" xsi:type="object">Rede\Adquirencia\Gateway\Http\TransferFactory</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RedeVoidRequestBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="void" xsi:type="string">Rede\Adquirencia\Gateway\Request\VoidDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- END Void Command -->
+
+    <!-- Response handlers -->
+    <virtualType name="RedeResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment" xsi:type="string">Rede\Adquirencia\Gateway\Response\PaymentDetailsHandler</item>
+                <item name="carddetails" xsi:type="string">Rede\Adquirencia\Gateway\Response\CardDetailsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value validators infrastructure -->
+    <virtualType name="RedeCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">Rede\Adquirencia\Gateway\Config\Config</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RedeValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">RedeCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="RedeValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">RedeConfigValueHandler</item>
+                <item name="can_void" xsi:type="string">Rede\Adquirencia\Gateway\Config\CanVoidHandler</item>
+                <item name="can_refund" xsi:type="string">Rede\Adquirencia\Gateway\Config\CanVoidHandler</item>
+                <item name="can_cancel" xsi:type="string">Rede\Adquirencia\Gateway\Config\CanVoidHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RedeConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">Rede\Adquirencia\Gateway\Config\Config</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Rede\Adquirencia\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">Rede\Adquirencia\Gateway\Config\Config</argument>
+        </arguments>
+    </type>
+</config>

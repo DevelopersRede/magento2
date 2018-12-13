@@ -1,0 +1,1 @@
+# Módulo de pagamento Rede para Magento 2

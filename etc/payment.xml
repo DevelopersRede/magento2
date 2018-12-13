@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/payment.xsd">
+    <credit_cards>
+        <type id="AMEX" order="10">
+            <label>American Express</label>
+        </type>
+        <type id="BC" order="10">
+            <label>Banescard</label>
+        </type>
+        <type id="CA" order="10">
+            <label>Cabal</label>
+        </type>
+        <type id="CS" order="10">
+            <label>CredSystem</label>
+        </type>
+        <type id="CZ" order="10">
+            <label>CREDZ</label>
+        </type>
+        <type id="DI" order="10">
+            <label>Diners</label>
+        </type>
+        <type id="ELO" order="10">
+            <label>Elo</label>
+        </type>
+        <type id="HI" order="10">
+            <label>Hiper</label>
+        </type>
+        <type id="HC" order="10">
+            <label>HiperCard</label>
+        </type>
+        <type id="JBC" order="10">
+            <label>JBC</label>
+        </type>
+        <type id="MC" order="10">
+            <label>Mastercard</label>
+        </type>
+        <type id="SC" order="10">
+            <label>Sorocred</label>
+        </type>
+        <type id="VI" order="10">
+            <label>Visa</label>
+        </type>
+    </credit_cards>
+</payment>
