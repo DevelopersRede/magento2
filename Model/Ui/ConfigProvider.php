@@ -52,7 +52,8 @@ final class ConfigProvider implements ConfigProviderInterface
         ResolverInterface $localeResolver,
         Source $assetSource,
         RequestInterface $request
-    ) {
+    )
+    {
         $this->config = $config;
         $this->assetRepo = $assetRepo;
         $this->localeResolver = $localeResolver;
@@ -67,6 +68,8 @@ final class ConfigProvider implements ConfigProviderInterface
      */
     public function getConfig()
     {
+        //error_log($this->createAsset('Rede_Adquirencia::images/rede.jpg'));
+
         return [
             'payment' => [
                 self::CODE => [
@@ -77,7 +80,8 @@ final class ConfigProvider implements ConfigProviderInterface
                     '3ds_enabled' => $this->config->is3DSEnabled(),
                     'debit_enabled' => $this->config->isDebitEnabled(),
                     '3ds_threshold' => $this->config->getThresholdAmount(),
-                    'issuers' => $this->createAsset('Rede_Adquirencia::images/cc/bandeiras.jpg')
+                    'rede' => $this->assetRepo->getUrl('Rede_Adquirencia::images/rede.jpg'),
+                    'rede_off' => $this->assetRepo->getUrl('Rede_Adquirencia::images/rede-off.jpg'),
                 ]
             ]
         ];

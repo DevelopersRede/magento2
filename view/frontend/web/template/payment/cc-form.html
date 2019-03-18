@@ -83,7 +83,7 @@
             <span><!-- ko i18n: 'Card Number'--><!-- /ko --></span>
         </label>
         <div class="control">
-            <input type="text" name="payment[cc_number]" class="input-text" value=""
+            <input type="number" step="0" maxlength="19" name="payment[cc_number]" class="input-text" value=""
                    data-bind="attr: {
                                     autocomplete: off,
                                     id: getCode() + '_cc_number',
@@ -97,7 +97,7 @@
     </div>
 
     <img id="issuers"
-         src="http://rede.ecommercebrasil.com.br/magento1/skin/frontend/base/default/rede/adquirencia/images/rede.jpg"
+         data-bind="attr: { src: getDefaultIssuers()}"
          style="max-width: 415px"/>
 
     <div class="field text required">
@@ -161,8 +161,9 @@
             <span><!-- ko i18n: 'Card Verification Number'--><!-- /ko --></span>
         </label>
         <div class="control _with-tooltip">
-            <input type="text"
+            <input type="number"
                    step="0"
+                   maxlength="4"
                    autocomplete="off"
                    class="input-number cvv"
                    name="payment[cc_cid]"

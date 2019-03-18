@@ -18,13 +18,6 @@ define([
     function (_, Component, creditCardData, cardNumberValidator, quote, $t, $, additionalValidators, redirectOnSuccessAction) {
         'use strict';
 
-        $([
-            'http://rede.ecommercebrasil.com.br/magento1/skin/frontend/base/default/rede/adquirencia/images/rede.jpg',
-            'http://rede.ecommercebrasil.com.br/magento1/skin/frontend/base/default/rede/adquirencia/images/rede-off.jpg'
-        ]).each(function() {
-            $('<img/>')[0].src = this;
-        });
-
         return Component.extend({
             defaults: {
                 template: 'Rede_Adquirencia/payment/form',
@@ -135,7 +128,7 @@ define([
 
                 //Set credit option
                 this.creditCard.subscribe(function (value) {
-                    let img = 'http://rede.ecommercebrasil.com.br/magento1/skin/frontend/base/default/rede/adquirencia/images/rede.jpg';
+                    let img = window.checkoutConfig.payment[this.getCode()].rede;
 
                     $('#issuers').attr('src', img);
 
@@ -148,10 +141,10 @@ define([
 
                 //Set 3ds option
                 this.creditCard3Ds.subscribe(function (value) {
-                    let img = 'http://rede.ecommercebrasil.com.br/magento1/skin/frontend/base/default/rede/adquirencia/images/rede.jpg';
+                    let img = window.checkoutConfig.payment[this.getCode()].rede;
 
                     if (value) {
-                        img = 'http://rede.ecommercebrasil.com.br/magento1/skin/frontend/base/default/rede/adquirencia/images/rede-off.jpg';
+                        img = window.checkoutConfig.payment[this.getCode()].rede_off;
 
                         if (self.hasInstallments()) {
                             $('#installments').show();
@@ -169,10 +162,10 @@ define([
                         $('#rede_installments_div').toggle();
                     }
 
-                    let img = 'http://rede.ecommercebrasil.com.br/magento1/skin/frontend/base/default/rede/adquirencia/images/rede.jpg';
+                    let img = window.checkoutConfig.payment[this.getCode()].rede;
 
                     if (value) {
-                        img = 'http://rede.ecommercebrasil.com.br/magento1/skin/frontend/base/default/rede/adquirencia/images/rede-off.jpg';
+                        img = window.checkoutConfig.payment[this.getCode()].rede_off;
                     }
 
                     $('#issuers').attr('src', img);
@@ -180,17 +173,29 @@ define([
 
                     creditCardData.debitCard = value;
                 });
+
+
+                $([
+                    window.checkoutConfig.payment[this.getCode()].rede,
+                    window.checkoutConfig.payment[this.getCode()].rede_off
+                ]).each(function () {
+                    $('<img/>')[0].src = this;
+                });
             },
 
-            getCreditCard: function() {
+            getDefaultIssuers: function() {
+                return window.checkoutConfig.payment[this.getCode()].rede;
+            },
+
+            getCreditCard: function () {
                 return window.checkoutConfig.payment[this.getCode()].creditCard;
             },
 
-            getCreditCard3Ds: function() {
+            getCreditCard3Ds: function () {
                 return window.checkoutConfig.payment[this.getCode()].creditCard3Ds;
             },
 
-            getDebitCard: function() {
+            getDebitCard: function () {
                 return window.checkoutConfig.payment[this.getCode()].debitCard;
             },
 
@@ -239,7 +244,7 @@ define([
                 return this.debitCard && window.checkoutConfig.payment[this.getCode()].number_installments > 0;
             },
 
-            is3DsEnabled: function() {
+            is3DsEnabled: function () {
                 let amount = quote.totals().grand_total;
                 let enabled = window.checkoutConfig.payment[this.getCode()]["3ds_enabled"];
                 let threshold = window.checkoutConfig.payment[this.getCode()]["3ds_threshold"];
@@ -247,7 +252,7 @@ define([
                 return enabled && amount >= threshold;
             },
 
-            isDebitEnabled: function() {
+            isDebitEnabled: function () {
                 return window.checkoutConfig.payment[this.getCode()].debit_enabled;
             },
 
