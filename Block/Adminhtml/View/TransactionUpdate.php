@@ -34,7 +34,7 @@ class TransactionUpdate
          */
         $order = $objectManager->create('\Magento\Sales\Model\Order')->load($view->getOrderId());
         $payment = $order->getPayment();
-        $canConsult = empty($payment->getAdditionalInformation("Nsu")) && empty($payment->getAdditionalInformation("Id Refund")) && empty($payment->getAdditionalInformation("Id Cancel"));
+        $canConsult = empty($payment->getAdditionalInformation("Nsu")) && empty($payment->getAdditionalInformation("Id Refund")) && empty($payment->getAdditionalInformation("Id Cancel")) && $payment->getMethodInstance()->getCode() == 'rede';
 
         if ($canConsult) {
             $oldstatus = $payment->getAdditionalInformation("Status da Autorização");
