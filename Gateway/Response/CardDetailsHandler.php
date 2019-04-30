@@ -51,7 +51,7 @@ class CardDetailsHandler implements HandlerInterface
          */
         $response_obj = $this->subjectReader->readTransaction($response);
 
-        $payment->setCcLast4($response_obj->getCardNumber());
+        $payment->setCcLast4(substr($response_obj->getCardNumber(), -4));
         $payment->setCcExpMonth($response_obj->getExpirationMonth());
         $payment->setCcExpYear($response_obj->getExpirationYear());
         $payment->setCcType($response_obj->getCardBin());
@@ -65,3 +65,4 @@ class CardDetailsHandler implements HandlerInterface
     }
 
 }
+
