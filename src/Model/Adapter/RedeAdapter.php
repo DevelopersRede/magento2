@@ -48,6 +48,8 @@ class RedeAdapter
         $token = $this->config->getToken();
         $environment = \Rede\Environment::production();
         $softDescriptor = $this->config->getSoftDescriptor();
+        $module = $this->config->getModule();
+        $gateway = $this->config->getGateway();
 
         if ($this->config->getEnvironment() == 'test') {
             $environment = \Rede\Environment::sandbox();
@@ -111,6 +113,10 @@ class RedeAdapter
 
         if (!empty($softDescriptor)) {
             $transaction->setSoftDescriptor($softDescriptor);
+        }
+
+        if (!empty($module) && !empty($gateway)) {
+            $transaction->additional($gateway, $module);
         }
 
         $logger = new \Monolog\Logger('rede');

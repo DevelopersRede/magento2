@@ -18,6 +18,9 @@
                 <number_installments>12</number_installments>
                 <min_total_installments>0</min_total_installments>
 
+                <module></module>
+                <gateway></gateway>
+
                 <can_authorize>1</can_authorize>
                 <can_sale>1</can_sale>
                 <can_capture>1</can_capture>

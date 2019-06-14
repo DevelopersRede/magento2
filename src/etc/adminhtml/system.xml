@@ -70,6 +70,16 @@
                     <frontend_class>validate-number</frontend_class>
                 </field>
 
+                <field id="module" translate="label" type="text" sortOrder="8"
+                       showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Module</label>
+                </field>
+
+                <field id="gateway" translate="label" type="text" sortOrder="8"
+                       showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Gateway</label>
+                </field>
+
                 <!--
 
                 <field id="verify_3dsecure" translate="label" type="select" sortOrder="9" showInDefault="1"

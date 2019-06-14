@@ -26,6 +26,9 @@ class Config extends \Magento\Payment\Gateway\Config\Config
 
     const MIN_TOTAL_INSTALLMENTS = 'min_total_installments';
 
+    const KEY_MODULE = 'module';
+    const KEY_GATEWAY = 'gateway';
+
     const VALUE_3DSECURE_ALL = 0;
     const CODE_3DSECURE = 'three_d_secure';
     const FRAUD_PROTECTION = 'fraudprotection';
@@ -70,6 +73,22 @@ class Config extends \Magento\Payment\Gateway\Config\Config
     public function getMinTotalInstallments()
     {
         return (double)$this->getValue(self::MIN_TOTAL_INSTALLMENTS);
+    }
+
+    /**
+     * @return string
+     */
+    public function getModule()
+    {
+        return $this->getValue(Config::KEY_MODULE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getGateway()
+    {
+        return $this->getValue(Config::KEY_GATEWAY);
     }
 
     /**
