@@ -30,8 +30,7 @@ package()
 		exit 1
 	fi
 
-	cd src
-	zip -r ../magento.zip *
+        zip -r magento2 * -x mysql -x .git -x Dockerfile -x docker-compose.yml -x build.sh -x README.md
 
 	if [ $? -ne 0 ]; then
 		error
