@@ -1,3 +1,9 @@
+# Importante
+
+Utilize sempre a última release para a instalação da versão mais recente do módulo
+
+https://github.com/DevelopersRede/magento2/releases
+
 # Módulo Magento 2
 
 Esse módulo é suportado pelas versões 2.2 e 2.3 e os requisitos são os mesmo das respectivas versões da plataforma Magento.
