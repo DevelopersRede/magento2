@@ -1,6 +1,6 @@
 # Importante
 
-Também é possível fazer o download da [última release](https://github.com/DevelopersRede/magento2/releases/latest/download/magento.zip). Essa versão já contém as dependênias, então basta descompactar o pacote e enviá-lo para o servidor da plataforma.
+Também é possível fazer o download da [última release](https://github.com/DevelopersRede/magento2/releases/latest/download/magento.zip). Essa versão já contém as dependências, então basta descompactar o pacote e enviá-lo para o servidor da plataforma.
 
 # Módulo Magento 2
 
