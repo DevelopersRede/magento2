@@ -96,9 +96,10 @@
         </div>
     </div>
 
-    <img id="issuers"
+    <img class="rede_img-flag"
+         id="issuers"
          data-bind="attr: { src: getDefaultIssuers()}"
-         style="max-width: 415px"/>
+         />
 
     <div class="field text required">
         <label data-bind="attr: {for: getCode() + '_cc_owner'}" class="label">
@@ -120,7 +121,7 @@
 
     <div class="field date required" data-bind="attr: {id: getCode() + '_cc_type_exp_div'}">
         <label data-bind="attr: {for: getCode() + '_expiration'}" class="label">
-            <span><!-- ko i18n: 'Expiration Date'--><!-- /ko --></span>
+            <span class="rede_exp_card"><!-- ko i18n: 'Expiration Date'--><!-- /ko --></span>
         </label>
         <div class="control">
             <div class="fields group group-2">
@@ -156,7 +157,7 @@
         </div>
     </div>
     <!-- ko if: (hasVerification())-->
-    <div class="field cvv required" data-bind="attr: {id: getCode() + '_cc_type_cvv_div'}">
+    <div class="field cvv required" style="width: auto;" data-bind="attr: {id: getCode() + '_cc_type_cvv_div'}">
         <label data-bind="attr: {for: getCode() + '_cc_cid'}" class="label">
             <span><!-- ko i18n: 'Card Verification Number'--><!-- /ko --></span>
         </label>
@@ -219,19 +220,19 @@
 
 <style type="text/css">
     .rede input, select.installments {
-        width: 413px !important;
+        width: 100% !important;
     }
 
     .rede select.select-month {
-        width: 298px !important;
+        width: 100% !important;
     }
 
     .rede select.select-year {
-        width: 110px !important;
+        width: 150% !important;
     }
 
     .rede input.cvv {
-        width: 100px !important;
+        width: 85% !important;
     }
 
     .rede .checkbutton {
@@ -239,4 +240,20 @@
         padding: 10px 30px 0 0;
         line-height: 20px;
     }
+    .rede_img-flag {
+        max-width: 75%;
+        margin-left: 8px;
+    }
+    .rede_exp_card {
+        margin-left: 10px;
+    }
+    @media (max-width: 680px) {
+      .rede_img-flag {
+        max-width: 90%;
+      }
+      .rede_exp_card {
+        margin-left: 0px;
+      }
+    }
+
 </style>
