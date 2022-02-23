@@ -99,7 +99,7 @@
     <img class="rede_img-flag"
          id="issuers"
          data-bind="attr: { src: getDefaultIssuers()}"
-         />
+    />
 
     <div class="field text required">
         <label data-bind="attr: {for: getCode() + '_cc_owner'}" class="label">
@@ -235,6 +235,10 @@
         width: 85% !important;
     }
 
+    .rede .cvv .field-tooltip {
+        left: 80%;
+    }
+
     .rede .checkbutton {
         display: inline-block;
         padding: 10px 30px 0 0;
@@ -248,12 +252,12 @@
         margin-left: 10px;
     }
     @media (max-width: 680px) {
-      .rede_img-flag {
-        max-width: 90%;
-      }
-      .rede_exp_card {
-        margin-left: 0px;
-      }
+        .rede_img-flag {
+            max-width: 90%;
+        }
+        .rede_exp_card {
+            margin-left: 0px;
+        }
     }
 
 </style>
