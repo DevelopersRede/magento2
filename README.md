@@ -2,6 +2,15 @@
 
 Também é possível fazer o download da [última release](https://github.com/DevelopersRede/magento2/releases/latest/download/magento.zip). Essa versão já contém as dependências, então basta descompactar o pacote e enviá-lo para o servidor da plataforma.
 
+# Funcionalidades
+
+Este plugin possui as seguintes funcionalidades:
+* autorização com captura direta ou posterior
+* captura
+* cancelamento
+
+A função 3DS1 foi descontinuada e será atualizada nas próximas versões do plugin.
+
 # Módulo Magento 2
 
 Esse módulo é suportado pelas versões 2.2 e 2.3 e os requisitos são os mesmo das respectivas versões da plataforma Magento.
