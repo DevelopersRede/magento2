@@ -2,9 +2,11 @@
   "name": "developersrede/magento2",
   "description": "Módulo de pagamento Rede para Magento 2",
   "require": {
-    "developersrede/erede-php": "^3.0",
+    "php": "^8.1",
     "ext-json": "*",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "monolog/monolog": "^3.2.0",
+    "developersrede/erede-php": "^5.2.0"
   },
   "type": "magento2-module",
   "version": "1.2.1",

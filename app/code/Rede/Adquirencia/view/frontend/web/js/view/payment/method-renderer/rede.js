@@ -22,6 +22,7 @@ define([
             defaults: {
                 template: 'Rede_Adquirencia/payment/form',
                 code: 'rede',
+                creditDebit: 'credit',
                 creditCardType: '',
                 creditCardExpYear: '',
                 creditCardExpMonth: '',
@@ -41,6 +42,7 @@ define([
             initObservable: function () {
                 this._super()
                     .observe([
+                        'creditDebit',
                         'creditCardType',
                         'creditCardExpYear',
                         'creditCardExpMonth',
@@ -66,6 +68,22 @@ define([
                 var self = this;
 
                 this._super();
+
+                this.creditDebit.subscribe(function(value){
+                    if (value === '' || value === null) {
+                        return false;
+                    }
+
+                    if (value === 'debit') {
+                        $('#issuers').attr('src', window.checkoutConfig.payment['rede'].rede_off);
+                        $('#rede_installments_div').hide();
+                    } else {
+                        $('#issuers').attr('src', window.checkoutConfig.payment['rede'].rede);
+                        $('#rede_installments_div').show();
+                    }
+
+                    creditCardData.creditDebit = value;
+                })
 
                 //Set Card number to Card data object
                 this.creditCardNumber.subscribe(function (value) {
@@ -174,7 +192,6 @@ define([
                     creditCardData.debitCard = value;
                 });
 
-
                 $([
                     window.checkoutConfig.payment[this.getCode()].rede,
                     window.checkoutConfig.payment[this.getCode()].rede_off
@@ -183,7 +200,7 @@ define([
                 });
             },
 
-            getDefaultIssuers: function() {
+            getDefaultIssuers: function () {
                 return window.checkoutConfig.payment[this.getCode()].rede;
             },
 
@@ -197,6 +214,19 @@ define([
 
             getDebitCard: function () {
                 return window.checkoutConfig.payment[this.getCode()].debitCard;
+            },
+
+            getMethods: function () {
+                return [
+                    {
+                        value: 'credit',
+                        key: 'Credit card'
+                    },
+                    {
+                        value: 'debit',
+                        key: 'Debit card'
+                    }
+                ];
             },
 
             getInstallments: function () {
@@ -244,14 +274,6 @@ define([
                 return this.debitCard && window.checkoutConfig.payment[this.getCode()].number_installments > 0;
             },
 
-            is3DsEnabled: function () {
-                let amount = quote.totals().grand_total;
-                let enabled = window.checkoutConfig.payment[this.getCode()]["3ds_enabled"];
-                let threshold = window.checkoutConfig.payment[this.getCode()]["3ds_threshold"];
-
-                return enabled && amount >= threshold;
-            },
-
             isDebitEnabled: function () {
                 return window.checkoutConfig.payment[this.getCode()].debit_enabled;
             },
@@ -264,6 +286,7 @@ define([
                 return {
                     'method': this.item.method,
                     'additional_data': {
+                        'credit_debit': this.creditDebit(),
                         'cc_cid': this.creditCardVerificationNumber(),
                         'cc_ss_start_month': this.creditCardSsStartMonth(),
                         'cc_ss_start_year': this.creditCardSsStartYear(),
@@ -488,6 +511,7 @@ define([
             },
 
             cleanValues: function () {
+                this.creditDebit('');
                 this.creditCardVerificationNumber('');
                 this.creditCardSsStartMonth('');
                 this.creditCardSsStartYear('');

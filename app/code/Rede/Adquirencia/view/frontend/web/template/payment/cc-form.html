@@ -12,69 +12,29 @@
     <br/>
     <!-- /ko -->
 
-    <!-- ko if: (is3DsEnabled() || isDebitEnabled())-->
-    <div class="field number required" data-bind="attr: {'data-validate': JSON.stringify({'required':true})}">
-        <div class="checkbutton">
-            <label data-bind="attr: {for: getCode() + '_cc'}" class="label">
-                <span><!-- ko i18n: 'Credit'--><!-- /ko --></span>
-            </label>
-            <div class="control" style="display:inline">
-                <input id="rede_cc" type="checkbox" name="payment[cc]" class="input-text cc"
-                       style="width:auto !important" value=""
-                       data-bind="attr: {
-                                    autocomplete: off,
-                                    id: getCode() + '_cc',
-                                    title: $t('Credit Authentication'),
-                                    'data-container': getCode() + '-cc'},
-                              enable: isActive($parents),
-                              value: creditCard,
-                              valueUpdate: 'input',
-                              checked: creditCard"/>
-            </div>
-        </div>
+    <img id="issuers"
+         data-bind="attr: { src: getDefaultIssuers()}"
+         style="max-width: 415px"/>
 
-        <!-- ko if: (is3DsEnabled())-->
-        <div class="checkbutton" data-bind="visible: is3DsEnabled()">
-            <label data-bind="attr: {for: getCode() + '_cc_3ds'}" class="label">
-                <span><!-- ko i18n: 'Credit 3DS'--><!-- /ko --></span>
-            </label>
-            <div class="control" style="display:inline">
-                <input id="rede_cc_3ds" type="checkbox" name="payment[cc_3ds]" class="input-text cc_3ds"
-                       style="width:auto !important" value=""
-                       data-bind="attr: {
-                                    autocomplete: off,
-                                    id: getCode() + '_cc_3ds',
-                                    title: $t('Credit Authentication'),
-                                    'data-container': getCode() + '-cc-3ds'},
-                              enable: isActive($parents) && is3DsEnabled(),
-                              value: creditCard3Ds,
-                              valueUpdate: 'input',
-                              checked: creditCard3Ds"/>
-            </div>
-        </div>
-        <!-- /ko -->
+    <!-- ko if: isDebitEnabled()-->
+    <div class="field _credit_debit required" data-bind="attr: {'data-validate': JSON.stringify({'required':true})}">
+        <label data-bind="attr: {for: getCode() + '_credit_debit'}" class="label">
+            <span><!-- ko i18n: 'Payment method'--><!-- /ko --></span>
+        </label>
 
-        <!-- ko if: (isDebitEnabled())-->
-        <div class="checkbutton" data-bind="visible: isDebitEnabled()">
-            <label data-bind="attr: {for: getCode() + '_cc_debit'}" class="label">
-                <span><!-- ko i18n: 'Debit 3DS'--><!-- /ko --></span>
-            </label>
-            <div class="control" style="display:inline">
-                <input id="rede_cc_debit" type="checkbox" name="payment[cc_debit]" class="input-text debit"
-                       style="width:auto !important"
-                       value=""
-                       data-bind="attr: {
-                                    autocomplete: off,
-                                    id: getCode() + '_cc_debit',
-                                    title: $t('Debit Card'),
-                                    'data-container': getCode() + '-cc-debit'},
-                              enable: isActive($parents) && isDebitEnabled(),
-                              value: debitCard,
-                              valueUpdate: 'input',
-                              checked: debitCard"/>
-            </div>
+        <div class="control">
+            <select class="select credit_debit"
+                    name="payment[credit_debit]"
+                    data-bind="attr: {id: getCode() + '_credit_debit', 'data-container': getCode() + '-credit-debit', 'data-validate': JSON.stringify({required:true})},
+                             enable: isActive($parents),
+                             options: getMethods(),
+                             optionsValue: 'value',
+                             optionsText: 'key',
+                             value: creditDebit,
+                             valueUpdate:['afterkeydown','input']"
+                    data-validate="{required:true}">
+            </select>
         </div>
-        <!-- /ko -->
     </div>
     <!-- /ko -->
 
@@ -96,13 +56,9 @@
         </div>
     </div>
 
-    <img id="issuers"
-         data-bind="attr: { src: getDefaultIssuers()}"
-         style="max-width: 415px"/>
-
     <div class="field text required">
         <label data-bind="attr: {for: getCode() + '_cc_owner'}" class="label">
-            <span><!-- ko i18n: 'Card Owner'--><!-- /ko --></span>
+            <span><!-- ko i18n: 'Name on card'--><!-- /ko --></span>
         </label>
         <div class="control">
             <input style="text-transform: uppercase;" type="text" name="payment[cc_owner]" class="input-text" value=""
@@ -191,6 +147,8 @@
     </div>
     <!-- /ko -->
 
+    ok
+
     <!-- ko if: (hasInstallments())-->
     <div id="installments" class="field required"
          data-bind="attr: {id: getCode() + '_installments_div'}, visible: getInstallments().length > 0">
@@ -218,7 +176,8 @@
 </fieldset>
 
 <style type="text/css">
-    .rede input, select.installments {
+    .rede input, select.installments,
+    .rede select.credit_debit {
         width: 413px !important;
     }
 

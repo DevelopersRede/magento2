@@ -15,8 +15,9 @@
                 <active>1</active>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
+                <enable_debit>1</enable_debit>
                 <number_installments>12</number_installments>
-                <min_total_installments>0</min_total_installments>
+                <min_total_installments>5.00</min_total_installments>
 
                 <module></module>
                 <gateway></gateway>
