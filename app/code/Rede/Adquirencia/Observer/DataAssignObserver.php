@@ -48,15 +48,13 @@ class DataAssignObserver extends AbstractDataAssignObserver
                 $additionalData->getData('number_of_installments'));
         }
 
-        if ($additionalData->getData('creditCard3Ds')) {
-            $payment->setAdditionalInformation('creditCard3Ds',
-                $additionalData->getData('creditCard3Ds'));
+        $type = 'credit';
+
+        if ($additionalData->getData('credit_debit')) {
+            $type = $additionalData->getData('credit_debit');
         }
 
-        if ($additionalData->getData('debitCard')) {
-            $payment->setAdditionalInformation('debitCard',
-                $additionalData->getData('debitCard'));
-        }
+        $payment->setAdditionalInformation('credit_debit',$type);
 
         $payment->setCcLast4(substr($additionalData->getData('cc_number'), -4));
         $payment->setCcNumberEnc($payment->encrypt($additionalData->getData('cc_number')));

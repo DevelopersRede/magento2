@@ -11,27 +11,27 @@ namespace Rede\Adquirencia\Gateway\Config;
  */
 class Config extends \Magento\Payment\Gateway\Config\Config
 {
-    const KEY_ENVIRONMENT = 'environment';
-    const KEY_ACTIVE = 'active';
-    const KEY_PV = 'pv';
-    const KEY_TOKEN = 'token';
-    const KEY_SOFT_DESCRIPTOR = 'soft_descriptor';
+    public const KEY_ENVIRONMENT = 'environment';
+    public const KEY_ACTIVE = 'active';
+    public const KEY_PV = 'pv';
+    public const KEY_TOKEN = 'token';
+    public const KEY_SOFT_DESCRIPTOR = 'soft_descriptor';
 
-    const KEY_VERIFY_3DSECURE = 'verify_3dsecure';
-    const KEY_ENABLE_DEBIT = 'enable_debit';
-    const KEY_THRESHOLD_AMOUNT = 'threshold_amount';
+    public const KEY_VERIFY_3DSECURE = 'verify_3dsecure';
+    public const KEY_ENABLE_DEBIT = 'enable_debit';
+    public const KEY_THRESHOLD_AMOUNT = 'threshold_amount';
 
-    const INSTALLMENTS = 'installments';
-    const NUMBER_INSTALLMENTS = 'number_installments';
+    public const INSTALLMENTS = 'installments';
+    public const NUMBER_INSTALLMENTS = 'number_installments';
 
-    const MIN_TOTAL_INSTALLMENTS = 'min_total_installments';
+    public const MIN_TOTAL_INSTALLMENTS = 'min_total_installments';
 
-    const KEY_MODULE = 'module';
-    const KEY_GATEWAY = 'gateway';
+    public const KEY_MODULE = 'module';
+    public const KEY_GATEWAY = 'gateway';
 
-    const VALUE_3DSECURE_ALL = 0;
-    const CODE_3DSECURE = 'three_d_secure';
-    const FRAUD_PROTECTION = 'fraudprotection';
+    public const VALUE_3DSECURE_ALL = 0;
+    public const CODE_3DSECURE = 'three_d_secure';
+    public const FRAUD_PROTECTION = 'fraudprotection';
 
     /**
      * Return the country specific card type config

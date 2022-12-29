@@ -9,6 +9,7 @@ namespace Rede\Adquirencia\Model\Ui;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Locale\ResolverInterface;
+use Magento\Framework\View\Asset\File;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Framework\View\Asset\Source;
 use Rede\Adquirencia\Gateway\Config\Config;
@@ -18,14 +19,14 @@ use Rede\Adquirencia\Gateway\Config\Config;
  */
 final class ConfigProvider implements ConfigProviderInterface
 {
-    const CODE = 'rede';
+    public const CODE = 'rede';
 
     /**
      * @var Repository
      */
     protected $assetRepo;
     /**
-     * @var \Magento\Framework\View\Asset\Source
+     * @var Source
      */
     protected $assetSource;
     /**
@@ -68,8 +69,6 @@ final class ConfigProvider implements ConfigProviderInterface
      */
     public function getConfig()
     {
-        //error_log($this->createAsset('Rede_Adquirencia::images/rede.jpg'));
-
         return [
             'payment' => [
                 self::CODE => [
@@ -79,9 +78,10 @@ final class ConfigProvider implements ConfigProviderInterface
                     'min_total_installments' => $this->config->getMinTotalInstallments(),
                     '3ds_enabled' => $this->config->is3DSEnabled(),
                     'debit_enabled' => $this->config->isDebitEnabled(),
-                    '3ds_threshold' => $this->config->getThresholdAmount(),
                     'rede' => $this->assetRepo->getUrl('Rede_Adquirencia::images/rede.jpg'),
                     'rede_off' => $this->assetRepo->getUrl('Rede_Adquirencia::images/rede-off.jpg'),
+                    'years' => array_map(fn($year) => (object) [$year => $year],range(date('Y'), date('Y') + 15))
+
                 ]
             ]
         ];
@@ -93,7 +93,7 @@ final class ConfigProvider implements ConfigProviderInterface
      * @param string $fileId
      * @param array $params
      *
-     * @return \Magento\Framework\View\Asset\File
+     * @return File
      */
     public function createAsset($fileId, array $params = [])
     {

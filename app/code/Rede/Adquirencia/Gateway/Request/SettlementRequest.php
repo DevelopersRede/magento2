@@ -6,6 +6,7 @@
 
 namespace Rede\Adquirencia\Gateway\Request;
 
+use LogicException;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
@@ -51,7 +52,7 @@ class SettlementRequest implements BuilderInterface
         $payment = $paymentDO->getPayment();
 
         if (!$payment instanceof OrderPaymentInterface) {
-            throw new \LogicException('Order payment should be provided.');
+            throw new LogicException('Order payment should be provided.');
         }
 
         return [

@@ -13,8 +13,8 @@ use Magento\Framework\Option\ArrayInterface;
  */
 class Environment implements ArrayInterface
 {
-    const ENVIRONMENT_PRODUCTION = 'production';
-    const ENVIRONMENT_TEST = 'test';
+    public const ENVIRONMENT_PRODUCTION = 'production';
+    public const ENVIRONMENT_TEST = 'test';
 
     /**
      * Possible environment types

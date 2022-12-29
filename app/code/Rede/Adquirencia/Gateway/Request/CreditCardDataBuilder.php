@@ -17,12 +17,12 @@ class CreditCardDataBuilder implements BuilderInterface
     /**
      * ShippingAddress block name
      */
-    const CREDIT_CARD = 'CreditCard';
-    const DEBIT_CARD = 'DebitCard';
-    const CARDNUMBER = 'CardNumber';
-    const HOLDER = 'Holder';
-    const EXPIRATIONDATE = 'ExpirationDate';
-    const SECURITYCODE = 'SecurityCode';
+    public const CREDIT_CARD = 'CreditCard';
+    public const DEBIT_CARD = 'DebitCard';
+    public const CARDNUMBER = 'CardNumber';
+    public const HOLDER = 'Holder';
+    public const EXPIRATIONDATE = 'ExpirationDate';
+    public const SECURITYCODE = 'SecurityCode';
 
     /**
      * @var SubjectReader
@@ -54,7 +54,7 @@ class CreditCardDataBuilder implements BuilderInterface
                     self::CARDNUMBER => $payment->getCcNumber(),
                     self::HOLDER => $payment->getCcOwner(),
                     self::EXPIRATIONDATE => str_pad($payment->getCcExpMonth(), 2, '0',
-                            STR_PAD_LEFT) . "/" . $payment->getCcExpYear(),
+                            STR_PAD_LEFT) . '/' . $payment->getCcExpYear(),
                     self::SECURITYCODE => $payment->getCcCid()
                 ]
             ]

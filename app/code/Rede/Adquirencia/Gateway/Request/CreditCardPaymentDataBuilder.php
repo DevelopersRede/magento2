@@ -20,13 +20,13 @@ class CreditCardPaymentDataBuilder extends AbstractPaymentDataBuilder
     {
         $paymentDO = $this->subjectReader->readPayment($buildSubject);
         $payment = $paymentDO->getPayment();
-        $debit = false;
+        $creditDebit = $payment->getAdditionalInformation('credit_debit');
 
-        if ($payment->getAdditionalInformation('debitCard')) {
-            $debit = $payment->getAdditionalInformation('debitCard');
+        if ($creditDebit == '' || $creditDebit == 'credit') {
+            return 'credit';
         }
 
-        return $debit? self::PAYMENTTYPE_DEBITCARD : self::PAYMENTTYPE_CREDITCARD;
+        return 'debit';
     }
 
     /**

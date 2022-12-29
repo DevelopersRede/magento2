@@ -5,10 +5,12 @@
  */
 namespace Rede\Adquirencia\Gateway\Response;
 
+use Exception;
 use Rede\Adquirencia\Gateway\Helper\SubjectReader;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Order;
+use Rede\Transaction;
 
 class TransactionIdHandler implements HandlerInterface
 {
@@ -33,14 +35,14 @@ class TransactionIdHandler implements HandlerInterface
      * @param array $handlingSubject
      * @param array $response
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle(array $handlingSubject, array $response)
     {
         $paymentDO = $this->subjectReader->readPayment($handlingSubject);
 
         if ($paymentDO->getPayment() instanceof Payment) {
-            /** @var \Rede\Transaction */
+            /** @var Transaction */
             $transaction = $this->subjectReader->readTransaction($response);
 
             /** @var Payment $orderPayment */
@@ -64,10 +66,10 @@ class TransactionIdHandler implements HandlerInterface
 
     /**
      * @param Payment $orderPayment
-     * @param \Rede\Transaction $transaction
+     * @param Transaction $transaction
      * @return void
      */
-    protected function setTransactionId(Payment $orderPayment, \Rede\Transaction $transaction)
+    protected function setTransactionId(Payment $orderPayment, Transaction $transaction)
     {
         $orderPayment->setTransactionId($transaction->getTid());
     }

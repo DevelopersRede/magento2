@@ -1,7 +1,9 @@
 <?php
 namespace Rede\Adquirencia\Block\Adminhtml\System\Config\Field;
 
-class Installment extends \Magento\Framework\View\Element\Html\Select
+use Magento\Framework\View\Element\Html\Select;
+
+class Installment extends Select
 {
     /**
      * Options

@@ -6,6 +6,7 @@
 
 namespace Rede\Adquirencia\Gateway\Http\Client;
 
+use Exception;
 use Rede\Adquirencia\Model\Adapter\RedeAdapter;
 use Magento\Payment\Gateway\Http\ClientException;
 use Magento\Payment\Gateway\Http\ClientInterface;
@@ -61,7 +62,7 @@ abstract class AbstractTransaction implements ClientInterface
 
         try {
             $response['object'] = $this->process($data);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $message = __($e->getMessage() ?: 'Sorry, but something went wrong');
             $this->logger->critical($message);
             throw new ClientException($message);

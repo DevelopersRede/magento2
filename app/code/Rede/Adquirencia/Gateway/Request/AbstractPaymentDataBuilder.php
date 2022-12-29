@@ -19,41 +19,41 @@ abstract class AbstractPaymentDataBuilder implements BuilderInterface
 {
     use Formatter;
 
-    const COUTRY_VALUE = "BRA";
-    const INTEREST_BY_MERCHANT = 'ByMerchant';
-    const INTEREST_BY_ISSUER = 'ByIssuer';
+    public const COUTRY_VALUE = 'BRA';
+    public const INTEREST_BY_MERCHANT = 'ByMerchant';
+    public const INTEREST_BY_ISSUER = 'ByIssuer';
 
 
-    const PAYMENTTYPE_CREDITCARD = 'CreditCard';
-    const PAYMENTTYPE_DEBITCARD = 'DebitCard';
-    const PAYMENTTYPE_ELECTRONIC_TRANSFER = 'ElectronicTransfer';
-    const PAYMENTTYPE_BOLETO = 'Boleto';
-    const PROVIDER_BRADESCO = 'Bradesco';
-    const PROVIDER_BANCO_DO_BRASIL = 'BancoDoBrasil';
-    const PROVIDER_SIMULADO = 'Simulado';
+    public const PAYMENTTYPE_CREDITCARD = 'CreditCard';
+    public const PAYMENTTYPE_DEBITCARD = 'DebitCard';
+    public const PAYMENTTYPE_ELECTRONIC_TRANSFER = 'ElectronicTransfer';
+    public const PAYMENTTYPE_BOLETO = 'Boleto';
+    public const PROVIDER_BRADESCO = 'Bradesco';
+    public const PROVIDER_BANCO_DO_BRASIL = 'BancoDoBrasil';
+    public const PROVIDER_SIMULADO = 'Simulado';
 
-    const PAYMENT = 'Payment';
-    const SERVICETAXAMOUNT = 'ServiceTaxAmount';
-    const INSTALLMENTS = 'Installments';
-    const INTEREST = 'Interest';
-    const CAPTURE = 'Capture';
-    const AUTHENTICATE = 'Authenticate';
-    const RECURRENT = 'Recurrent';
-    const TID = 'Tid';
-    const PROOFOFSALE = 'ProofOfSale';
-    const AUTHORIZATIONCODE = 'AuthorizationCode';
-    const SOFTDESCRIPTOR = 'SoftDescriptor';
-    const PROVIDER = 'Provider';
-    const PAYMENTID = 'PaymentId';
-    const TYPE = 'Type';
-    const AMOUNT = 'Amount';
-    const RECEIVEDDATE = 'ReceivedDate';
-    const CURRENCY = 'Currency';
-    const COUNTRY = 'Country';
-    const RETURNCODE = 'ReturnCode';
-    const RETURNMESSAGE = 'ReturnMessage';
-    const STATUS = 'Status';
-    const LINKS = 'Links';
+    public const PAYMENT = 'Payment';
+    public const SERVICETAXAMOUNT = 'ServiceTaxAmount';
+    public const INSTALLMENTS = 'Installments';
+    public const INTEREST = 'Interest';
+    public const CAPTURE = 'Capture';
+    public const AUTHENTICATE = 'Authenticate';
+    public const RECURRENT = 'Recurrent';
+    public const TID = 'Tid';
+    public const PROOFOFSALE = 'ProofOfSale';
+    public const AUTHORIZATIONCODE = 'AuthorizationCode';
+    public const SOFTDESCRIPTOR = 'SoftDescriptor';
+    public const PROVIDER = 'Provider';
+    public const PAYMENTID = 'PaymentId';
+    public const TYPE = 'Type';
+    public const AMOUNT = 'Amount';
+    public const RECEIVEDDATE = 'ReceivedDate';
+    public const CURRENCY = 'Currency';
+    public const COUNTRY = 'Country';
+    public const RETURNCODE = 'ReturnCode';
+    public const RETURNMESSAGE = 'ReturnMessage';
+    public const STATUS = 'Status';
+    public const LINKS = 'Links';
 
     /**
      * One-time-use token that references a payment method provided by your customer,
@@ -63,19 +63,19 @@ abstract class AbstractPaymentDataBuilder implements BuilderInterface
      * that accept new or saved payment details.
      * This can be passed instead of a payment_method_token parameter.
      */
-    const PAYMENT_METHOD_NONCE = 'paymentMethodNonce';
+    public const PAYMENT_METHOD_NONCE = 'paymentMethodNonce';
 
     /**
      * The merchant account ID used to create a transaction.
      * Currency is also determined by merchant account ID.
      * If no merchant account ID is specified, Braintree will use your default merchant account.
      */
-    const MERCHANT_ACCOUNT_ID = 'merchantAccountId';
+    public const MERCHANT_ACCOUNT_ID = 'merchantAccountId';
 
     /**
      * Order ID
      */
-    const ORDER_ID = 'orderId';
+    public const ORDER_ID = 'orderId';
 
     /**
      * @var Config

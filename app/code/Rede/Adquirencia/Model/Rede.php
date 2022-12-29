@@ -5,12 +5,14 @@
  */
 namespace Rede\Adquirencia\Model;
 
+use Magento\Payment\Model\Method\Cc;
+
 /**
  * Class ConfigProvider
  */
-class Rede extends \Magento\Payment\Model\Method\Cc
+class Rede extends Cc
 {
-    const METHOD_CODE = 'rede';
+    public const METHOD_CODE = 'rede';
 
     protected $_code = self::METHOD_CODE;
     protected $_isGateway = true;

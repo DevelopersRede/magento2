@@ -16,9 +16,9 @@ use Rede\Adquirencia\Gateway\Helper\SubjectReader;
 class SaleDataBuilder implements BuilderInterface
 {
 
-    const SALE = 'Sale';
+    public const SALE = 'Sale';
 
-    const ORDER_ID = 'orderId';
+    public const ORDER_ID = 'orderId';
 
     /**
      * @var SubjectReader

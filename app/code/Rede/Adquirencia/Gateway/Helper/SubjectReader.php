@@ -6,6 +6,7 @@
 
 namespace Rede\Adquirencia\Gateway\Helper;
 
+use InvalidArgumentException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Helper;
 use Magento\Vault\Api\Data\PaymentTokenInterface;
@@ -40,18 +41,18 @@ class SubjectReader
      *
      * @param array $subject
      *
-     * @return \Rede\Transaction
+     * @return Transaction
      */
     public function readTransaction(array $subject)
     {
         if (!isset($subject['object']) || !is_object($subject['object'])) {
-            throw new \InvalidArgumentException('Response object does not exist');
+            throw new InvalidArgumentException('Response object does not exist');
         }
 
         if (!isset($subject['object'])
             && !$subject['object'] instanceof Transaction
         ) {
-            throw new \InvalidArgumentException('The object is not a \Rede\Transaction');
+            throw new InvalidArgumentException('The object is not a \Rede\Transaction');
         }
 
         return $subject['object'];
@@ -91,7 +92,7 @@ class SubjectReader
     public function readCustomerId(array $subject)
     {
         if (empty($subject['customer_id'])) {
-            throw new \InvalidArgumentException('The "customerId" field does not exists');
+            throw new InvalidArgumentException('The "customerId" field does not exists');
         }
 
         return (int)$subject['customer_id'];
@@ -107,7 +108,7 @@ class SubjectReader
     public function readPublicHash(array $subject)
     {
         if (empty($subject[PaymentTokenInterface::PUBLIC_HASH])) {
-            throw new \InvalidArgumentException('The "public_hash" field does not exists');
+            throw new InvalidArgumentException('The "public_hash" field does not exists');
         }
 
         return $subject[PaymentTokenInterface::PUBLIC_HASH];
@@ -123,7 +124,7 @@ class SubjectReader
     public function readPayPal(Transaction $transaction)
     {
         if (!isset($transaction->paypal)) {
-            throw new \InvalidArgumentException('Transaction has\'t paypal attribute');
+            throw new InvalidArgumentException('Transaction has\'t paypal attribute');
         }
 
         return $transaction->paypal;

@@ -1,18 +1,22 @@
 <?php
 namespace Rede\Adquirencia\Block\Adminhtml\System\Config\Field;
 
-class Installments extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
+use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\View\Element\BlockInterface;
+
+class Installments extends AbstractFieldArray
 {
 
     /**
-     * @var \Rede\Adquirencia\Block\Adminhtml\System\Config\Field\Installment
+     * @var Installment
      */
     protected $_installmentRenderer = null;
 
     /**
      * Prepare to render
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function _prepareToRender()
     {
@@ -36,8 +40,8 @@ class Installments extends \Magento\Config\Block\System\Config\Form\Field\FieldA
 
     /**
      * Return renderer for installments
-     * @return Installment|\Magento\Framework\View\Element\BlockInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return Installment|BlockInterface
+     * @throws LocalizedException
      */
     protected function getNumberOfInstallmentsRenderer()
     {

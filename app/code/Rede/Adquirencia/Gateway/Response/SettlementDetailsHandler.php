@@ -7,6 +7,7 @@
 namespace Rede\Adquirencia\Gateway\Response;
 
 use Magento\Payment\Gateway\Response\HandlerInterface;
+use Magento\Sales\Model\Order\Payment;
 use Rede\Adquirencia\Gateway\Helper\SubjectReader;
 
 class SettlementDetailsHandler implements HandlerInterface
@@ -47,19 +48,19 @@ class SettlementDetailsHandler implements HandlerInterface
         if (!is_null($response_obj)) {
             $payment = $paymentDO->getPayment();
 
-            $payment->setAdditionalInformation("Codigo de Retorno", $response_obj->getReturnCode());
-            $payment->setAdditionalInformation("Messagem de Retorno", $response_obj->getReturnMessage());
+            $payment->setAdditionalInformation('Codigo de Retorno', $response_obj->getReturnCode());
+            $payment->setAdditionalInformation('Messagem de Retorno', $response_obj->getReturnMessage());
 
-            $payment->setAdditionalInformation("Nsu", $response_obj->getNsu());
-            $payment->setAdditionalInformation("Código da autorização", $response_obj->getAuthorizationCode());
+            $payment->setAdditionalInformation('Nsu', $response_obj->getNsu());
+            $payment->setAdditionalInformation('Código da autorização', $response_obj->getAuthorizationCode());
 
             $authorization = $response_obj->getAuthorization();
 
             if (!is_null($authorization)) {
-                $payment->setAdditionalInformation("Status da autorização", $authorization->getStatus());
+                $payment->setAdditionalInformation('Status da autorização', $authorization->getStatus());
             }
 
-            /** @var $payment \Magento\Sales\Model\Order\Payment */
+            /** @var $payment Payment */
             //$payment->setTransactionId($response[self::TXN_ID]);
             $payment->setTransactionId($response_obj->getTid());
             $payment->setParentTransactionId($payment->getTransactionId());

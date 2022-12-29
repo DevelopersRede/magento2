@@ -61,15 +61,15 @@ class VoidHandler extends TransactionIdHandler
         $response_obj = $this->subjectReader->readTransaction($response);
 
         if (!is_null($response_obj)) {
-            /** @var $payment \Magento\Sales\Model\Order\Payment */
+            /** @var $payment Payment */
             $payment = $paymentDO->getPayment();
 
-            $payment->setAdditionalInformation("Codigo de Retorno", $response_obj->getReturnCode());
-            $payment->setAdditionalInformation("Messagem de Retorno", $response_obj->getReturnMessage());
+            $payment->setAdditionalInformation('Codigo de Retorno', $response_obj->getReturnCode());
+            $payment->setAdditionalInformation('Messagem de Retorno', $response_obj->getReturnMessage());
 
-            $payment->setAdditionalInformation("Nsu", $response_obj->getNsu());
-            $payment->setAdditionalInformation("Id Refund", $response_obj->getRefundId());
-            $payment->setAdditionalInformation("Id Cancel", $response_obj->getCancelId());
+            $payment->setAdditionalInformation('Nsu', $response_obj->getNsu());
+            $payment->setAdditionalInformation('Id Refund', $response_obj->getRefundId());
+            $payment->setAdditionalInformation('Id Cancel', $response_obj->getCancelId());
         }
 
         parent::handle($handlingSubject, $response);

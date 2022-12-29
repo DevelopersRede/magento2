@@ -5,6 +5,8 @@
  */
 namespace Rede\Adquirencia\Gateway\Http\Client;
 
+use Exception;
+
 /**
  * Class TransactionAuthorize
  */
@@ -12,7 +14,7 @@ class TransactionAuthorize extends AbstractTransaction
 {
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     protected function process(array $data)
     {

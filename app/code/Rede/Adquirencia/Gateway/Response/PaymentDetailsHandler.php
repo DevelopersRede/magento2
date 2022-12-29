@@ -59,17 +59,17 @@ class PaymentDetailsHandler implements HandlerInterface
             $payment->setLastTransId($response_obj->getAuthorization()->getTid());
         }
 
-        $payment->setAdditionalInformation("Codigo de Retorno", $response_obj->getReturnCode());
-        $payment->setAdditionalInformation("Messagem de Retorno", $response_obj->getReturnMessage());
-        $payment->setAdditionalInformation("Parcelas", $response_obj->getInstallments());
+        $payment->setAdditionalInformation('Codigo de Retorno', $response_obj->getReturnCode());
+        $payment->setAdditionalInformation('Messagem de Retorno', $response_obj->getReturnMessage());
+        $payment->setAdditionalInformation('Parcelas', $response_obj->getInstallments());
 
-        $payment->setAdditionalInformation("Id Transação", $response_obj->getTid());
-        $payment->setAdditionalInformation("Id Refund", $response_obj->getRefundId());
-        $payment->setAdditionalInformation("Id Cancel", $response_obj->getCancelId());
-        $payment->setAdditionalInformation("Bin", $response_obj->getCardBin());
-        $payment->setAdditionalInformation("Last 4", $response_obj->getLast4());
-        $payment->setAdditionalInformation("Nsu", $response_obj->getNsu());
-        $payment->setAdditionalInformation("Código da autorização", $response_obj->getAuthorizationCode());
+        $payment->setAdditionalInformation('Id Transação', $response_obj->getTid());
+        $payment->setAdditionalInformation('Id Refund', $response_obj->getRefundId());
+        $payment->setAdditionalInformation('Id Cancel', $response_obj->getCancelId());
+        $payment->setAdditionalInformation('Bin', $response_obj->getCardBin());
+        $payment->setAdditionalInformation('Last 4', $response_obj->getLast4());
+        $payment->setAdditionalInformation('Nsu', $response_obj->getNsu());
+        $payment->setAdditionalInformation('Código da autorização', $response_obj->getAuthorizationCode());
 
         $payment->setTransactionId($response_obj->getTid());
         $payment->setParentTransactionId($payment->getTransactionId());

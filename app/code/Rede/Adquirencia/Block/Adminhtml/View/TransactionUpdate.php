@@ -6,8 +6,15 @@
 
 namespace Rede\Adquirencia\Block\Adminhtml\View;
 
+use Magento\Framework\App\ObjectManager;
+use Magento\Sales\Block\Adminhtml\Order\View;
 use Magento\Sales\Model\Order;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Rede\Adquirencia\Gateway\Config\Config;
+use Rede\Environment;
+use Rede\eRede;
+use Rede\Store;
 
 /**
  * Class TransactionUpdate
@@ -25,33 +32,33 @@ class TransactionUpdate
         $this->config = $config;
     }
 
-    public function beforeSetLayout(\Magento\Sales\Block\Adminhtml\Order\View $view)
+    public function beforeSetLayout(View $view)
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $objectManager = ObjectManager::getInstance();
 
         /**
-         * @var \Magento\Sales\Model\Order
+         * @var Order
          */
         $order = $objectManager->create('\Magento\Sales\Model\Order')->load($view->getOrderId());
         $payment = $order->getPayment();
-        $canConsult = empty($payment->getAdditionalInformation("Nsu")) && empty($payment->getAdditionalInformation("Id Refund")) && empty($payment->getAdditionalInformation("Id Cancel")) && $payment->getMethodInstance()->getCode() == 'rede';
+        $canConsult = empty($payment->getAdditionalInformation('Nsu')) && empty($payment->getAdditionalInformation('Id Refund')) && empty($payment->getAdditionalInformation('Id Cancel')) && $payment->getMethodInstance()->getCode() == 'rede';
 
         if ($canConsult) {
-            $oldstatus = $payment->getAdditionalInformation("Status da Autorização");
+            $oldstatus = $payment->getAdditionalInformation('Status da Autorização');
 
-            $environment = \Rede\Environment::production();
+            $environment = Environment::production();
 
             if ($this->config->getEnvironment() == 'test') {
-                $environment = \Rede\Environment::sandbox();
+                $environment = Environment::sandbox();
             }
 
-            $store = new \Rede\Store($this->config->getPv(), $this->config->getToken(), $environment);
+            $store = new Store($this->config->getPv(), $this->config->getToken(), $environment);
 
-            $logger = new \Monolog\Logger('rede');
-            $logger->pushHandler(new \Monolog\Handler\StreamHandler(BP . '/var/log/rede.log', \Monolog\Logger::DEBUG));
+            $logger = new Logger('rede');
+            $logger->pushHandler(new StreamHandler(BP . '/var/log/rede.log', Logger::DEBUG));
             $logger->info('Log Rede');
 
-            $transaction = (new \Rede\eRede($store, $logger))->get($payment->getAdditionalInformation('Id Transação'));
+            $transaction = (new eRede($store, $logger))->get($payment->getAdditionalInformation('Id Transação'));
             $status = $transaction->getAuthorization()->getStatus();
 
             if ($status != $oldstatus) {
@@ -68,7 +75,7 @@ class TransactionUpdate
                         break;
                 }
 
-                $payment->setAdditionalInformation("Status da Autorização", $status);
+                $payment->setAdditionalInformation('Status da Autorização', $status);
                 $order->addStatusHistoryComment(sprintf('Status updated to %s', $status));
                 $order->save();
             }

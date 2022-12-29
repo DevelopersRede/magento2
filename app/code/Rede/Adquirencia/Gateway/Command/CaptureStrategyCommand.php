@@ -6,8 +6,8 @@
 
 namespace Rede\Adquirencia\Gateway\Command;
 
+use Magento\Framework\Exception\NotFoundException;
 use Rede\Adquirencia\Gateway\Helper\SubjectReader;
-
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\TransactionRepositoryInterface;
@@ -25,12 +25,12 @@ class CaptureStrategyCommand implements CommandInterface
     /**
      * Rede authorize and capture command
      */
-    const SALE = 'sale';
+    public const SALE = 'sale';
 
     /**
      * Rede capture command
      */
-    const CAPTURE = 'settlement';
+    public const CAPTURE = 'settlement';
 
     /**
      * @var CommandPoolInterface
@@ -99,11 +99,11 @@ class CaptureStrategyCommand implements CommandInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @throws NotFoundException
      */
     public function execute(array $commandSubject)
     {
-        /** @var \Magento\Payment\Gateway\Data\PaymentDataObjectInterface $paymentDO */
+        /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = $this->subjectReader->readPayment($commandSubject);
 
         $command = $this->getCommand($paymentDO);

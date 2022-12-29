@@ -9,7 +9,9 @@ namespace Rede\Adquirencia\Model\Adminhtml\Source;
 
 
 
-class Installments implements \Magento\Framework\Option\ArrayInterface
+use Magento\Framework\Option\ArrayInterface;
+
+class Installments implements ArrayInterface
 {
     /**
      * {@inheritdoc}
