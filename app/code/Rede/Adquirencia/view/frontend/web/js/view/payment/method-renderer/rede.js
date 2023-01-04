@@ -28,14 +28,7 @@ define([
                 creditCardExpMonth: '',
                 creditCardNumber: '',
                 creditCardOwner: '',
-                creditCardSsStartMonth: '',
-                creditCardSsStartYear: '',
-                creditCardSsIssue: '',
                 creditCardVerificationNumber: '',
-                creditCard: true,
-                creditCard3Ds: false,
-                debitCard: false,
-                selectedCardType: null,
                 installment: '1'
             },
 
@@ -49,13 +42,6 @@ define([
                         'creditCardNumber',
                         'creditCardOwner',
                         'creditCardVerificationNumber',
-                        'creditCardSsStartMonth',
-                        'creditCardSsStartYear',
-                        'creditCardSsIssue',
-                        'creditCard',
-                        'creditCard3Ds',
-                        'debitCard',
-                        'selectedCardType',
                         'installment'
                     ]);
                 return this;
@@ -69,7 +55,7 @@ define([
 
                 this._super();
 
-                this.creditDebit.subscribe(function(value){
+                this.creditDebit.subscribe(function (value) {
                     if (value === '' || value === null) {
                         return false;
                     }
@@ -89,8 +75,6 @@ define([
                 this.creditCardNumber.subscribe(function (value) {
                     var result;
 
-                    self.selectedCardType(null);
-
                     if (value === '' || value === null) {
                         return false;
                     }
@@ -102,7 +86,6 @@ define([
                     }
 
                     if (result.card !== null) {
-                        self.selectedCardType(result.card.type);
                         creditCardData.creditCard = result.card;
                     }
 
@@ -142,54 +125,6 @@ define([
                     }
 
                     creditCardData.cvvCode = value;
-                });
-
-                //Set credit option
-                this.creditCard.subscribe(function (value) {
-                    let img = window.checkoutConfig.payment[this.getCode()].rede;
-
-                    $('#issuers').attr('src', img);
-
-                    creditCardData.creditCard = value;
-
-                    if (value && self.hasInstallments()) {
-                        $('#installments').show();
-                    }
-                });
-
-                //Set 3ds option
-                this.creditCard3Ds.subscribe(function (value) {
-                    let img = window.checkoutConfig.payment[this.getCode()].rede;
-
-                    if (value) {
-                        img = window.checkoutConfig.payment[this.getCode()].rede_off;
-
-                        if (self.hasInstallments()) {
-                            $('#installments').show();
-                        }
-                    }
-
-                    $('#issuers').attr('src', img);
-
-                    creditCardData.creditCard3Ds = value;
-                });
-
-                //Set debit card option
-                this.debitCard.subscribe(function (value) {
-                    if (self.hasInstallments()) {
-                        $('#rede_installments_div').toggle();
-                    }
-
-                    let img = window.checkoutConfig.payment[this.getCode()].rede;
-
-                    if (value) {
-                        img = window.checkoutConfig.payment[this.getCode()].rede_off;
-                    }
-
-                    $('#issuers').attr('src', img);
-                    $('#installments').hide();
-
-                    creditCardData.debitCard = value;
                 });
 
                 $([
@@ -271,7 +206,9 @@ define([
             },
 
             hasInstallments: function () {
-                return this.debitCard && window.checkoutConfig.payment[this.getCode()].number_installments > 0;
+                let debit = window.checkoutConfig.payment[this.getCode()].credit_debit == 'debit';
+
+                return !debit && window.checkoutConfig.payment[this.getCode()].number_installments > 0;
             },
 
             isDebitEnabled: function () {
@@ -288,18 +225,15 @@ define([
                     'additional_data': {
                         'credit_debit': this.creditDebit(),
                         'cc_cid': this.creditCardVerificationNumber(),
-                        'cc_ss_start_month': this.creditCardSsStartMonth(),
-                        'cc_ss_start_year': this.creditCardSsStartYear(),
-                        'cc_ss_issue': this.creditCardSsIssue(),
                         'cc_type': this.creditCardType(),
                         'cc_exp_year': this.creditCardExpYear(),
                         'cc_exp_month': this.creditCardExpMonth(),
                         'cc_number': this.creditCardNumber(),
                         'cc_owner': this.creditCardOwner(),
                         'number_of_installments': this.installment(),
-                        'creditCard': this.creditCard(),
-                        'creditCard3Ds': this.creditCard3Ds(),
-                        'debitCard': this.debitCard()
+                        'color_depth': screen.colorDepth,
+                        'screen_height': screen.height,
+                        'screen_width': screen.width
                     }
                 };
             },
@@ -513,18 +447,12 @@ define([
             cleanValues: function () {
                 this.creditDebit('');
                 this.creditCardVerificationNumber('');
-                this.creditCardSsStartMonth('');
-                this.creditCardSsStartYear('');
-                this.creditCardSsIssue('');
                 this.creditCardType('');
                 this.creditCardExpYear('');
                 this.creditCardExpMonth('');
                 this.creditCardNumber('');
                 this.creditCardOwner('');
                 this.installment(1);
-                this.creditCard(true);
-                this.creditCard3Ds(false);
-                this.debitCard(false);
             },
 
             /**

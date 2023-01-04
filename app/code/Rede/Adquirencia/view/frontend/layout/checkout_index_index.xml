@@ -5,7 +5,8 @@
  * See COPYING.txt for license details.
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
     </head>
     <body>
@@ -26,10 +27,14 @@
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
                                                                 <item name="rede" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">Rede_Adquirencia/js/view/payment/method-renderer</item>
+                                                                    <item name="component" xsi:type="string">
+                                                                        Rede_Adquirencia/js/view/payment/method-renderer
+                                                                    </item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="rede" xsi:type="array">
-                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                            <item name="isBillingAddressRequired"
+                                                                                  xsi:type="boolean">true
+                                                                            </item>
                                                                         </item>
                                                                     </item>
                                                                 </item>

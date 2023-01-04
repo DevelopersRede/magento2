@@ -6,6 +6,8 @@
 namespace Rede\Adquirencia\Gateway\Response;
 
 use Exception;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Rede\Adquirencia\Gateway\Helper\SubjectReader;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Sales\Model\Order\Payment;

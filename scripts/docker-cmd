@@ -43,10 +43,11 @@ run_magento() {
     echo "{\"http-basic\": {\"repo.magento.com\": {\"username\": \"$MAGENTO_REPO_USER\", \"password\": \"$MAGENTO_REPO_PSWD\"}}}" > auth.json
 
     php -d memory_limit=-1 bin/magento module:disable Magento_TwoFactorAuth
-    php -d memory_limit=-1 bin/magento setup:di:compile
-    php -d memory_limit=-1 bin/magento cache:flush
     php -d memory_limit=-1 bin/magento setup:upgrade
+    php -d memory_limit=-1 bin/magento setup:di:compile
     php -d memory_limit=-1 bin/magento setup:static-content:deploy -f
+    php -d memory_limit=-1 bin/magento cache:flush
+    php -d memory_limit=-1 bin/magento cache:clean
 
     touch /var/www/html/var/.installed
   fi

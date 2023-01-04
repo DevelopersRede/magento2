@@ -63,6 +63,16 @@ class PaymentDetailsHandler implements HandlerInterface
         $payment->setAdditionalInformation('Messagem de Retorno', $response_obj->getReturnMessage());
         $payment->setAdditionalInformation('Parcelas', $response_obj->getInstallments());
 
+        $threeDS = $response_obj->getThreeDSecure();
+
+        if (!is_null($threeDS)) {
+            $authentication = $threeDS->getUrl();
+
+            if (!empty($authentication)) {
+                $payment->setAdditionalInformation('URL de autenticação', $authentication);
+            }
+        }
+
         $payment->setAdditionalInformation('Id Transação', $response_obj->getTid());
         $payment->setAdditionalInformation('Id Refund', $response_obj->getRefundId());
         $payment->setAdditionalInformation('Id Cancel', $response_obj->getCancelId());

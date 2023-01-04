@@ -8,3 +8,4 @@ scripts/dev-ssl/*
 scripts/etc/dev-ssl/
 scripts/etc/nginx/conf.d/
 app/code/Rede/Adquirencia/vendor/
+vendor/

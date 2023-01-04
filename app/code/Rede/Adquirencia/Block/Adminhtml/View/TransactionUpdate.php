@@ -58,26 +58,30 @@ class TransactionUpdate
             $logger->pushHandler(new StreamHandler(BP . '/var/log/rede.log', Logger::DEBUG));
             $logger->info('Log Rede');
 
-            $transaction = (new eRede($store, $logger))->get($payment->getAdditionalInformation('Id Transação'));
-            $status = $transaction->getAuthorization()->getStatus();
+            $tid = $payment->getAdditionalInformation('Id Transação');
 
-            if ($status != $oldstatus) {
-                switch ($status) {
-                    case 'Approved':
-                        $order->setState(Order::STATE_PROCESSING);
-                        break;
-                    case 'Canceled':
-                    case 'Denied':
-                        $order->setState(Order::STATE_CANCELED);
-                        break;
-                    case 'Pending':
-                        $order->setState(Order::STATE_PENDING_PAYMENT);
-                        break;
+            if (!empty($tid)) {
+                $transaction = (new eRede($store, $logger))->get();
+                $status = $transaction->getAuthorization()->getStatus();
+
+                if ($status != $oldstatus) {
+                    switch ($status) {
+                        case 'Approved':
+                            $order->setState(Order::STATE_PROCESSING);
+                            break;
+                        case 'Canceled':
+                        case 'Denied':
+                            $order->setState(Order::STATE_CANCELED);
+                            break;
+                        case 'Pending':
+                            $order->setState(Order::STATE_PENDING_PAYMENT);
+                            break;
+                    }
+
+                    $payment->setAdditionalInformation('Status da Autorização', $status);
+                    $order->addStatusHistoryComment(sprintf('Status updated to %s', $status));
+                    $order->save();
                 }
-
-                $payment->setAdditionalInformation('Status da Autorização', $status);
-                $order->addStatusHistoryComment(sprintf('Status updated to %s', $status));
-                $order->save();
             }
         }
     }

@@ -24,6 +24,8 @@ RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/bin/composer && chmod +x /usr/bin/composer
 
+RUN echo memory_limit=-1 > /usr/local/etc/php/conf.d/memory.ini
+
 ADD ./etc /etc
 ADD ./etc/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 ADD ./docker-cmd /usr/bin/docker-cmd
@@ -34,8 +36,8 @@ RUN rm -f /var/www/html/*
 USER www-data
 RUN echo "{\"http-basic\": {\"repo.magento.com\": {\"username\": \"$MAGENTO_REPO_USER\", \"password\": \"$MAGENTO_REPO_PSWD\"}}}" > ~/.composer/auth.json
 RUN composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.4 /var/www/html
-#RUN git clone https://github.com/magento/magento2-sample-data.git /tmp/sample
-#RUN php -f /tmp/sample/dev/tools/build-sample-data.php -- --ce-source=/var/www/html
+RUN git clone https://github.com/magento/magento2-sample-data.git /tmp/sample
+RUN php -f /tmp/sample/dev/tools/build-sample-data.php -- --ce-source=/var/www/html
 
 USER www-data
 WORKDIR "/var/www/html"

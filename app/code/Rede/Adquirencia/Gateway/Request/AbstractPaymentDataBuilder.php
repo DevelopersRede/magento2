@@ -11,7 +11,6 @@ use Magento\Payment\Helper\Formatter;
 use Rede\Adquirencia\Gateway\Config\Config;
 use Rede\Adquirencia\Gateway\Helper\SubjectReader;
 
-
 /**
  * Payment Data Builder
  */
@@ -35,6 +34,7 @@ abstract class AbstractPaymentDataBuilder implements BuilderInterface
     public const PAYMENT = 'Payment';
     public const SERVICETAXAMOUNT = 'ServiceTaxAmount';
     public const INSTALLMENTS = 'Installments';
+    public const DEVICE = 'Device';
     public const INTEREST = 'Interest';
     public const CAPTURE = 'Capture';
     public const AUTHENTICATE = 'Authenticate';
@@ -137,7 +137,12 @@ abstract class AbstractPaymentDataBuilder implements BuilderInterface
                 self::INSTALLMENTS => $installments,
                 self::SOFTDESCRIPTOR => $this->config->getSoftDescriptor(),
                 self::TYPE => $this->getTypeTransaction($buildSubject),
-                self::AMOUNT => $order->getGrandTotalAmount()
+                self::AMOUNT => $order->getGrandTotalAmount(),
+                self::DEVICE => [
+                    'color_depth' => (int)$payment->getAdditionalInformation('color_depth'),
+                    'screen_width' => (int)$payment->getAdditionalInformation('screen_width'),
+                    'screen_height' => (int)$payment->getAdditionalInformation('screen_height')
+                ]
             ]
         ];
 

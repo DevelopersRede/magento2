@@ -12,9 +12,9 @@ use Magento\Payment\Model\Method\Logger;
 use Monolog\Handler\StreamHandler;
 use Rede\Adquirencia\Gateway\Config\Config;
 use Rede\Adquirencia\Model\Adminhtml\Source\Environment;
+use Rede\Device;
 use Rede\eRede;
 use Rede\Store;
-use Rede\ThreeDSecure;
 use Rede\Transaction;
 use Rede\Url;
 
@@ -54,15 +54,8 @@ class RedeAdapter
         $payment = $attributes['Sale']['Payment'];
         $pv = $this->config->getPv();
         $token = $this->config->getToken();
-        $environment = \Rede\Environment::production();
+        $environment = $this->config->getEnvironment() === 'test' ? \Rede\Environment::sandbox() : \Rede\Environment::production();
         $softDescriptor = $this->config->getSoftDescriptor();
-        $module = $this->config->getModule();
-        $gateway = $this->config->getGateway();
-
-        if ($this->config->getEnvironment() == 'test') {
-            $environment = \Rede\Environment::sandbox();
-        }
-
         $store = new Store($pv, $token, $environment);
         $expiration = [];
         $expirationMonth = '';
@@ -74,8 +67,10 @@ class RedeAdapter
         }
 
         $transaction = new Transaction($payment['Amount'], $attributes['Sale']['orderId'] + time());
+        $debit = false;
 
-        if ($this->config->isDebitEnabled() && $payment['Type'] == 'DebitCard') {
+        if ($this->config->isDebitEnabled() && $payment['Type'] == 'debit') {
+            $debit = true;
             $transaction->debitCard(
                 $payment['CreditCard']['CardNumber'],
                 $payment['CreditCard']['SecurityCode'],
@@ -83,16 +78,6 @@ class RedeAdapter
                 $expirationYear,
                 $payment['CreditCard']['Holder']
             );
-
-            $transaction->threeDSecure(ThreeDSecure::DECLINE_ON_FAILURE);
-
-            $objectManager = ObjectManager::getInstance();
-            $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-
-            $baseurl = $storeManager->getStore()->getBaseUrl();
-
-            $transaction->addUrl($baseurl . 'checkout/onepage/success/', Url::THREE_D_SECURE_SUCCESS);
-            $transaction->addUrl($baseurl . 'checkout/onepage/success/', Url::THREE_D_SECURE_FAILURE);
         } else {
             $transaction->creditCard(
                 $payment['CreditCard']['CardNumber'],
@@ -103,31 +88,38 @@ class RedeAdapter
             )->setInstallments($payment['Installments'] ?? 1);
 
             $transaction->capture($capture);
-
-//            if ($this->config->is3DSEnabled()) {
-//                if ($payment['Authenticate'] && $payment['Amount'] > $this->config->getThresholdAmount()) {
-//                    $transaction->threeDSecure(\Rede\ThreeDSecure::DECLINE_ON_FAILURE);
-//
-//                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-//                    $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-//
-//                    $baseurl = $storeManager->getStore()->getBaseUrl();
-//
-//                    $transaction->addUrl($baseurl . 'checkout/onepage/success/', \Rede\Url::THREE_D_SECURE_SUCCESS);
-//                    $transaction->addUrl($baseurl . 'checkout/onepage/success/', \Rede\Url::THREE_D_SECURE_FAILURE);
-//                }
-//            }
-        }
-
-        if (!empty($softDescriptor)) {
-            $transaction->setSoftDescriptor($softDescriptor);
         }
 
         $logger = new \Monolog\Logger('rede');
         $logger->pushHandler(new StreamHandler(BP . '/var/log/rede.log', \Monolog\Logger::DEBUG));
         $logger->info('Log Rede');
 
-        $logger->debug(print_r($payment, true));
+        if ($debit || $this->config->is3DSEnabled()) {
+            if ($debit || $payment['Amount'] > $this->config->getThresholdAmount()) {
+                $transaction->threeDSecure(
+                    new Device(
+                        ColorDepth: $payment['Device']['color_depth'],
+                        DeviceType3ds: 'BROWSER',
+                        JavaEnabled: true,
+                        Language: 'BR',
+                        ScreenHeight: $payment['Device']['screen_height'],
+                        ScreenWidth: $payment['Device']['screen_width']
+                    )
+                );
+
+                $objectManager = ObjectManager::getInstance();
+                $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+
+                $baseurl = $storeManager->getStore()->getBaseUrl();
+
+                $transaction->addUrl($baseurl . 'checkout/onepage/success/', Url::THREE_D_SECURE_SUCCESS);
+                $transaction->addUrl($baseurl . 'checkout/onepage/success/', Url::THREE_D_SECURE_FAILURE);
+            }
+        }
+
+        if (!empty($softDescriptor)) {
+            $transaction->setSoftDescriptor($softDescriptor);
+        }
 
         try {
             $transaction = (new eRede($store, $logger))->create($transaction);
@@ -156,7 +148,10 @@ class RedeAdapter
         $transaction = null;
 
         try {
-            $transaction = (new eRede($store, $logger))->capture((new Transaction($data['AMOUNT']))->setTid($data['TID']));
+            $transaction = (new eRede(
+                $store,
+                $logger
+            ))->capture((new Transaction($data['AMOUNT']))->setTid($data['TID']));
         } catch (Exception $e) {
             $logger->error($e->getMessage());
         }
@@ -182,7 +177,10 @@ class RedeAdapter
         $transaction = null;
 
         try {
-            $transaction = (new eRede($store, $logger))->cancel((new Transaction($data['AMOUNT']))->setTid($data['TID']));
+            $transaction = (new eRede(
+                $store,
+                $logger
+            ))->cancel((new Transaction($data['AMOUNT']))->setTid($data['TID']));
         } catch (Exception $e) {
             $logger->error($e->getMessage());
         }
@@ -204,5 +202,4 @@ class RedeAdapter
     {
         return new Merchant($this->config->getPv(), $this->config->getToken());
     }
-
 }

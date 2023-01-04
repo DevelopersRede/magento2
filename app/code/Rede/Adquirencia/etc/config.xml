@@ -16,11 +16,9 @@
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
                 <enable_debit>1</enable_debit>
+                <verify_3dsecure>1</verify_3dsecure>
                 <number_installments>12</number_installments>
                 <min_total_installments>5.00</min_total_installments>
-
-                <module></module>
-                <gateway></gateway>
 
                 <can_authorize>1</can_authorize>
                 <can_sale>1</can_sale>
@@ -34,7 +32,7 @@
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
 
-                <paymentInfoKeys>Codigo de Retorno,Messagem de Retorno,Parcelas,Id Transação,Id Refund,Id Cancel,Bin,Last 4,Nsu,Código da autorização,Status da autorização,Titular do Cartão,Expiração do cartão,Ambiente</paymentInfoKeys>
+                <paymentInfoKeys>Codigo de Retorno,URL de autenticação,Messagem de Retorno,Parcelas,Id Transação,Id Refund,Id Cancel,Bin,Last 4,Nsu,Código da autorização,Status da autorização,Titular do Cartão,Expiração do cartão,Ambiente</paymentInfoKeys>
                 <privateInfoKeys>cc_type,cc_number</privateInfoKeys>
             </rede>
         </payment>

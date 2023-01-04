@@ -53,9 +53,18 @@ class CreditCardDataBuilder implements BuilderInterface
                 self::CREDIT_CARD => [
                     self::CARDNUMBER => $payment->getCcNumber(),
                     self::HOLDER => $payment->getCcOwner(),
-                    self::EXPIRATIONDATE => str_pad($payment->getCcExpMonth(), 2, '0',
-                            STR_PAD_LEFT) . '/' . $payment->getCcExpYear(),
-                    self::SECURITYCODE => $payment->getCcCid()
+                    self::EXPIRATIONDATE => str_pad(
+                        $payment->getCcExpMonth(),
+                        2,
+                        '0',
+                        STR_PAD_LEFT
+                    ) . '/' . $payment->getCcExpYear(),
+                    self::SECURITYCODE => $payment->getCcCid(),
+                    AbstractPaymentDataBuilder::DEVICE => [
+                        'color_depth' => (int)$payment->getAdditionalInformation('color_depth'),
+                        'screen_width' => (int)$payment->getAdditionalInformation('screen_width'),
+                        'screen_height' => (int)$payment->getAdditionalInformation('screen_height')
+                    ]
                 ]
             ]
         ];

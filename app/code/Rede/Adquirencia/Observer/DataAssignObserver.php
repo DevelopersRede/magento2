@@ -34,7 +34,7 @@ class DataAssignObserver extends AbstractDataAssignObserver
         $paymentMethod = $this->readMethodArgument($observer);
 
         $payment = $observer->getPaymentModel();
-        
+
         if (!$payment instanceof InfoInterface) {
             $payment = $paymentMethod->getInfoInstance();
         }
@@ -44,8 +44,22 @@ class DataAssignObserver extends AbstractDataAssignObserver
         }
 
         if ($additionalData->getData('number_of_installments')) {
-            $payment->setAdditionalInformation('number_of_installments',
-                $additionalData->getData('number_of_installments'));
+            $payment->setAdditionalInformation(
+                'number_of_installments',
+                $additionalData->getData('number_of_installments')
+            );
+        }
+
+        if ($additionalData->getData('color_depth')) {
+            $payment->setAdditionalInformation('color_depth', $additionalData->getData('color_depth'));
+        }
+
+        if ($additionalData->getData('screen_height')) {
+            $payment->setAdditionalInformation('screen_height', $additionalData->getData('screen_height'));
+        }
+
+        if ($additionalData->getData('screen_width')) {
+            $payment->setAdditionalInformation('screen_width', $additionalData->getData('screen_width'));
         }
 
         $type = 'credit';
@@ -54,7 +68,7 @@ class DataAssignObserver extends AbstractDataAssignObserver
             $type = $additionalData->getData('credit_debit');
         }
 
-        $payment->setAdditionalInformation('credit_debit',$type);
+        $payment->setAdditionalInformation('credit_debit', $type);
 
         $payment->setCcLast4(substr($additionalData->getData('cc_number'), -4));
         $payment->setCcNumberEnc($payment->encrypt($additionalData->getData('cc_number')));

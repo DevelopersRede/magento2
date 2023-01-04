@@ -16,16 +16,21 @@ class AuthorizeValidator extends GeneralResponseValidator
      */
     protected function getResponseValidators()
     {
-        return array_merge(
+        $response = array_merge(
             parent::getResponseValidators(),
             [
                 function ($response) {
+                    $responseCode = $response->getReturnCode();
+
                     return [
-                        $response->getReturnCode() == '00',
+                        $responseCode === '00' || $responseCode === '220',
                         sprintf('[Rede %d] - %s', $response->getReturnCode(), $response->getReturnMessage())
                     ];
                 }
             ]
         );
+
+
+        return $response;
     }
 }

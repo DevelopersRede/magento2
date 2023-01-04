@@ -7,6 +7,8 @@
 namespace Rede\Adquirencia\Gateway\Response;
 
 use Magento\Payment\Gateway\Response\HandlerInterface;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Rede\Adquirencia\Gateway\Config\Config;
 use Rede\Adquirencia\Gateway\Helper\SubjectReader;
 use Rede\Transaction;
@@ -43,6 +45,7 @@ class CardDetailsHandler implements HandlerInterface
      */
     public function handle(array $handlingSubject, array $response)
     {
+
         $paymentDO = $this->subjectReader->readPayment($handlingSubject);
         $payment = $paymentDO->getPayment();
 
@@ -58,17 +61,13 @@ class CardDetailsHandler implements HandlerInterface
 
         // set card details to additional info
         $cardNumberFull = $response_obj->getCardNumber();
-$cardNumberFirstSix = substr($cardNumberFull, 0, 6);
-$cardNumberLastFour= substr($cardNumberFull, -4);
-
- 
-
-$payment->setAdditionalInformation('Titular do Cartao', $response_obj->getCardHolderName());
-$payment->setAdditionalInformation('Numero do Cartão - 6 Primeiros 4 Utimos', "$cardNumberFirstSix - $cardNumberLastFour");
-$payment->setAdditionalInformation('Ambiente', $this->config->getEnvironment());      
-
-
+        $cardNumberFirstSix = substr($cardNumberFull, 0, 6);
+        $cardNumberLastFour = substr($cardNumberFull, -4);
+        $payment->setAdditionalInformation('Titular do Cartao', $response_obj->getCardHolderName());
+        $payment->setAdditionalInformation(
+            'Numero do Cartão - 6 Primeiros 4 Utimos',
+            "$cardNumberFirstSix - $cardNumberLastFour"
+        );
+        $payment->setAdditionalInformation('Ambiente', $this->config->getEnvironment());
     }
-
 }
-

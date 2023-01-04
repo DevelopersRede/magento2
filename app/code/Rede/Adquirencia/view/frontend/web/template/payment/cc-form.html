@@ -12,19 +12,18 @@
     <br/>
     <!-- /ko -->
 
-    <img id="issuers"
-         data-bind="attr: { src: getDefaultIssuers()}"
+    <img data-bind="attr: { src: getDefaultIssuers()}"
+         id="issuers"
          style="max-width: 415px"/>
 
     <!-- ko if: isDebitEnabled()-->
     <div class="field _credit_debit required" data-bind="attr: {'data-validate': JSON.stringify({'required':true})}">
-        <label data-bind="attr: {for: getCode() + '_credit_debit'}" class="label">
+        <label class="label" data-bind="attr: {for: getCode() + '_credit_debit'}">
             <span><!-- ko i18n: 'Payment method'--><!-- /ko --></span>
         </label>
 
         <div class="control">
             <select class="select credit_debit"
-                    name="payment[credit_debit]"
                     data-bind="attr: {id: getCode() + '_credit_debit', 'data-container': getCode() + '-credit-debit', 'data-validate': JSON.stringify({required:true})},
                              enable: isActive($parents),
                              options: getMethods(),
@@ -32,19 +31,19 @@
                              optionsText: 'key',
                              value: creditDebit,
                              valueUpdate:['afterkeydown','input']"
-                    data-validate="{required:true}">
+                    data-validate="{required:true}"
+                    name="payment[credit_debit]">
             </select>
         </div>
     </div>
     <!-- /ko -->
 
     <div class="field number required">
-        <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
+        <label class="label" data-bind="attr: {for: getCode() + '_cc_number'}">
             <span><!-- ko i18n: 'Card Number'--><!-- /ko --></span>
         </label>
         <div class="control">
-            <input type="number" step="0" maxlength="19" name="payment[cc_number]" class="input-text" value=""
-                   data-bind="attr: {
+            <input class="input-text" data-bind="attr: {
                                     autocomplete: off,
                                     id: getCode() + '_cc_number',
                                     title: $t('Card Number'),
@@ -52,17 +51,17 @@
                                     'data-validate': JSON.stringify({'required-number':true, 'validate-card-number':'#' + getCode() + '_cc_type'})},
                               enable: isActive($parents),
                               value: creditCardNumber,
-                              valueUpdate: 'keyup' "/>
+                              valueUpdate: 'keyup' " maxlength="19" name="payment[cc_number]" step="0" type="number"
+                   value=""/>
         </div>
     </div>
 
     <div class="field text required">
-        <label data-bind="attr: {for: getCode() + '_cc_owner'}" class="label">
+        <label class="label" data-bind="attr: {for: getCode() + '_cc_owner'}">
             <span><!-- ko i18n: 'Name on card'--><!-- /ko --></span>
         </label>
         <div class="control">
-            <input style="text-transform: uppercase;" type="text" name="payment[cc_owner]" class="input-text" value=""
-                   data-bind="attr: {
+            <input class="input-text" data-bind="attr: {
                                     autocomplete: off,
                                     id: getCode() + '_cc_owner',
                                     title: $t('Card Owner'),
@@ -70,41 +69,42 @@
                                     'data-validate': JSON.stringify({'required':true})},
                               enable: isActive($parents),
                               value: creditCardOwner,
-                              valueUpdate: 'keyup' "/>
+                              valueUpdate: 'keyup' " name="payment[cc_owner]" style="text-transform: uppercase;" type="text"
+                   value=""/>
         </div>
     </div>
 
     <div class="field date required" data-bind="attr: {id: getCode() + '_cc_type_exp_div'}">
-        <label data-bind="attr: {for: getCode() + '_expiration'}" class="label">
+        <label class="label" data-bind="attr: {for: getCode() + '_expiration'}">
             <span><!-- ko i18n: 'Expiration Date'--><!-- /ko --></span>
         </label>
         <div class="control">
             <div class="fields group group-2">
                 <div class="field no-label month">
                     <div class="control">
-                        <select name="payment[cc_exp_month]"
-                                class="select select-month"
+                        <select class="select select-month"
                                 data-bind="attr: {id: getCode() + '_expiration', 'data-container': getCode() + '-cc-month', 'data-validate': JSON.stringify({required:true, 'validate-cc-exp':'#' + getCode() + '_expiration_yr'})},
                                             enable: isActive($parents),
                                             options: getCcMonthsValues(),
                                             optionsValue: 'value',
                                             optionsText: 'month',
                                             optionsCaption: $t('Month'),
-                                            value: creditCardExpMonth">
+                                            value: creditCardExpMonth"
+                                name="payment[cc_exp_month]">
                         </select>
                     </div>
                 </div>
                 <div class="field no-label year">
                     <div class="control">
-                        <select name="payment[cc_exp_year]"
-                                class="select select-year"
+                        <select class="select select-year"
                                 data-bind="attr: {id: getCode() + '_expiration_yr', 'data-container': getCode() + '-cc-year', 'data-validate': JSON.stringify({required:true})},
                                            enable: isActive($parents),
                                            options: getCcYearsValues(),
                                            optionsValue: 'value',
                                            optionsText: 'year',
                                            optionsCaption: $t('Year'),
-                                           value: creditCardExpYear">
+                                           value: creditCardExpYear"
+                                name="payment[cc_exp_year]">
                         </select>
                     </div>
                 </div>
@@ -113,66 +113,61 @@
     </div>
     <!-- ko if: (hasVerification())-->
     <div class="field cvv required" data-bind="attr: {id: getCode() + '_cc_type_cvv_div'}">
-        <label data-bind="attr: {for: getCode() + '_cc_cid'}" class="label">
+        <label class="label" data-bind="attr: {for: getCode() + '_cc_cid'}">
             <span><!-- ko i18n: 'Card Verification Number'--><!-- /ko --></span>
         </label>
         <div class="control _with-tooltip">
-            <input type="number"
-                   step="0"
-                   maxlength="4"
-                   autocomplete="off"
+            <input autocomplete="off"
                    class="input-number cvv"
-                   name="payment[cc_cid]"
-                   value=""
                    data-bind="attr: {id: getCode() + '_cc_cid',
                         title: $t('Card Verification Number'),
                         'data-container': getCode() + '-cc-cvv',
                         'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + '_cc_type'})},
                         enable: isActive($parents),
                         value: creditCardVerificationNumber,
-                        valueUpdate: 'keyup' "/>
+                        valueUpdate: 'keyup' "
+                   maxlength="4"
+                   name="payment[cc_cid]"
+                   step="0"
+                   type="number"
+                   value=""/>
 
             <div class="field-tooltip toggle">
                 <span class="field-tooltip-action action-cvv"
-                      tabindex="0"
+                      data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}"
                       data-toggle="dropdown"
-                      data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
+                      tabindex="0">
                     <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
                 </span>
                 <div class="field-tooltip-content"
-                     data-target="dropdown"
-                     data-bind="html: getCvvImageHtml()"></div>
+                     data-bind="html: getCvvImageHtml()"
+                     data-target="dropdown"></div>
             </div>
         </div>
     </div>
     <!-- /ko -->
 
-    ok
-
     <!-- ko if: (hasInstallments())-->
-    <div id="installments" class="field required"
-         data-bind="attr: {id: getCode() + '_installments_div'}, visible: getInstallments().length > 0">
-        <label data-bind="attr: {for: getCode() + '_installments'}" class="label">
+    <div class="field required" data-bind="attr: {id: getCode() + '_installments_div'}, visible: getInstallments().length > 0"
+         id="installments">
+        <label class="label" data-bind="attr: {for: getCode() + '_installments'}">
             <span><!-- ko text: $t('Installments')--><!-- /ko --></span>
         </label>
         <div class="control">
             <select class="select installments"
-                    name="payment[number_of_installments]"
                     data-bind="attr: {id: getCode() + '_installments', 'data-container': getCode() + '-installments', 'data-validate': JSON.stringify({required:true})},
                              enable: isActive($parents),
                              options: getInstallments(),
                              optionsValue: 'value',
                              optionsText: 'key',
-                             optionsCaption: $t('Choose a number of installments'),
                              value: installment,
                              valueUpdate:['afterkeydown','propertychange','input']"
-                    data-validate="{required:true}">
+                    data-validate="{required:true}"
+                    name="payment[number_of_installments]">
             </select>
         </div>
     </div>
     <!-- /ko -->
-
-
 </fieldset>
 
 <style type="text/css">
