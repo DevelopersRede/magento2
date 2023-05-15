@@ -1,0 +1,66 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"
+               name="payment[method]"
+               type="radio"/>
+        <label class="label" data-bind="attr: {'for': getCode()}">
+            <span data-bind="text: getTitle()"></span>
+        </label>
+    </div>
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <form action="#" class="form" data-bind="mageInit:
+            { 'rede_register_validate':
+              {
+                'context': context(),
+                'code': getCode()
+              }
+            }" id="rede-form" method="post">
+            <!-- ko template: 'Rede_Adquirencia/payment/cc-form' --><!-- /ko -->
+        </form>
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        data-bind="
+                        attr: {title: $t('Place Order')},
+                        enable: (getCode() == isChecked()),
+                        click: placeOrder,
+                        css: {disabled: !isPlaceOrderActionAllowed()}
+                        "
+                        data-role="review-save"
+                        disabled
+                        type="submit">
+                    <span data-bind="i18n: 'Place Order'"></span>
+                </button>
+            </div>
+            <div class="secondary">
+                <span data-bind="i18n: 'Forgot an Item?'" id="checkout-review-edit-label"></span>
+                <a aria-describedby="checkout-review-edit-label"
+                   class="action edit"
+                   data-bind="attr: {href: $parents[1].cartUrl}">
+                    <span data-bind="i18n: 'Edit Your Cart'"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="rede"
+                   translate="label"
+                   type="text"
+                   sortOrder="1"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+
+                <label>Rede</label>
+
+                <field id="active"
+                       translate="label"
+                       type="select"
+                       sortOrder="1"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="environment"
+                       translate="label"
+                       type="select"
+                       sortOrder="1"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Environment</label>
+                    <source_model>Rede\Adquirencia\Model\Adminhtml\Source\Environment</source_model>
+                    <config_path>payment/rede/environment</config_path>
+                </field>
+
+                <field id="title"
+                       translate="label"
+                       type="text"
+                       sortOrder="2"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+
+                    <label>Title</label>
+                </field>
+
+                <field id="pv"
+                       translate="label"
+                       type="text"
+                       sortOrder="3"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>PV</label>
+                </field>
+
+                <field id="token"
+                       translate="label"
+                       type="text"
+                       sortOrder="4"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Token</label>
+                </field>
+
+                <field id="soft_descriptor"
+                       translate="label tooltip"
+                       type="text"
+                       sortOrder="5"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Soft Descriptor</label>
+                    <tooltip>
+                        <![CDATA[O parâmetro é composto por 22 caracteres. Os 8 primeiros caracteres são para identificar o nome do estabelecimento, que serão exibido de forma estática na fatura do portador do cartão. Após os 8 caracteres, a Rede insere um hífen e disponibiliza mais 13 caracteres a serem enviados dinamicamente por transação.<br/><b>Exemplo: nomeloja-nomedoproduto</b><br/>Para utilizar essa funcionalidade, acesse o portal da Rede no menu e.Rede > Identificação na fatura ou entre em contato com a Central de atendimento da Rede. Caso o nome não seja cadastrado, o serviço não será habilitado.<br/>Após a habilitação do serviço via portal, a funcionalidade será disponibilizada dentro de um prazo de até 24 horas.]]>
+                    </tooltip>
+                </field>
+
+                <field id="enable_debit"
+                       translate="label"
+                       type="select"
+                       sortOrder="6"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Enable Debit?</label>
+                    <config_path>payment/rede/enable_debit</config_path>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="verify_3dsecure"
+                       translate="label"
+                       type="select"
+                       sortOrder="7"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+                    <label>3D Secure Verification</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>payment/rede/verify_3dsecure</config_path>
+                </field>
+
+                <field id="threshold_amount"
+                       translate="label"
+                       type="text"
+                       sortOrder="8"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Threshold Amount</label>
+                    <config_path>payment/rede/threshold_amount</config_path>
+                </field>
+
+                <field id="payment_action"
+                       translate="label"
+                       type="select"
+                       sortOrder="9"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Payment Action for Credit</label>
+                    <source_model>Rede\Adquirencia\Model\Adminhtml\Source\PaymentAction</source_model>
+                </field>
+
+                <field id="number_installments"
+                       translate="label tooltip"
+                       type="select"
+                       sortOrder="10"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Maximum number of installments</label>
+                    <tooltip>Sets up how many installments your store will provide in the payment act.</tooltip>
+                    <source_model>Rede\Adquirencia\Model\Adminhtml\Source\Installments</source_model>
+                </field>
+
+                <field id="min_total_installments"
+                       translate="label comment tooltip"
+                       type="text"
+                       sortOrder="11"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Minimum amount for installment</label>
+                    <comment>Ex.: 20.00</comment>
+                    <tooltip>Sets a minimum amount to provide the installment function in your store.</tooltip>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+
+                <field id="sort_order"
+                       translate="label"
+                       type="text"
+                       sortOrder="14"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
