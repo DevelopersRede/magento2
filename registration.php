@@ -4,10 +4,8 @@
  * See COPYING.txt for license details.
  */
 
-use Magento\Framework\Component\ComponentRegistrar;
-
-ComponentRegistrar::register(
-    ComponentRegistrar::MODULE,
+\Magento\Framework\Component\ComponentRegistrar::register(
+    \Magento\Framework\Component\ComponentRegistrar::MODULE,
     'Rede_Adquirencia',
     __DIR__
 );
