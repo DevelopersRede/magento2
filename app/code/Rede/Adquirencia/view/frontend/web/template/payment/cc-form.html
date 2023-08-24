@@ -51,7 +51,7 @@
                                     'data-validate': JSON.stringify({'required-number':true, 'validate-card-number':'#' + getCode() + '_cc_type'})},
                               enable: isActive($parents),
                               value: creditCardNumber,
-                              valueUpdate: 'keyup' " maxlength="19" name="payment[cc_number]" step="0" type="number"
+                              valueUpdate: 'keyup' " maxlength="19" name="payment[cc_number]" step="1" type="number"
                    value=""/>
         </div>
     </div>
@@ -128,7 +128,7 @@
                         valueUpdate: 'keyup' "
                    maxlength="4"
                    name="payment[cc_cid]"
-                   step="0"
+                   step="1"
                    type="number"
                    value=""/>
 
