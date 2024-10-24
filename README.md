@@ -13,7 +13,7 @@ A função 3DS1 foi descontinuada e será atualizada nas próximas versões do p
 
 # Módulo Magento 2
 
-Esse módulo é suportado pelas versões 2.2 e 2.3 e os requisitos são os mesmo das respectivas versões da plataforma Magento.
+Esse módulo é suportado pelas versões 2.2, 2.3 e 2.4 e os requisitos são os mesmo das respectivas versões da plataforma Magento.
 
 ## Instalação via composer
 
